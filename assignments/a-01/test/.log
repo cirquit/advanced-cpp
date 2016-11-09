@@ -1,0 +1,150 @@
+rm -f *.o
+rm -f *.a
+rm -f *.bin
+rm -f ../solution/*.o
+rm -f ../solution/*.a
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c testsuite.cc -o testsuite.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c vector_test.cc -o vector_test.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c deque_test.cc -o deque_test.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c stack_test.cc -o stack_test.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c ../solution/vector.c -o ../solution/vector.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c ../solution/deque.c -o ../solution/deque.o
+clang++ --std=c++11 -Wall -Wextra -pedantic -I/home/cpppc/opt/gtest/include -I../ -c ../solution/stack.c -o ../solution/stack.o
+clang++ testsuite.o vector_test.o deque_test.o stack_test.o ../solution/vector.o ../solution/deque.o ../solution/stack.o -o testsuite.bin -lpthread -L/home/cpppc/opt/gtest/lib -lgtest
+./testsuite.bin
+[==========] Running 11 tests from 3 test cases.
+[----------] Global test environment set-up.
+[----------] 4 tests from VectorTest
+[ RUN      ] VectorTest.StandardConcept
+[=   LOG  =]            vector_test.h :  12 | Opening test suite: VectorTest 
+[=   LOG  =]           vector_test.cc :  14 | VectorTest.StandardConcept: vector__new 
+[=   LOG  =]           vector_test.cc :  18 | VectorTest.StandardConcept: vector__equals 
+vector_test.cc:19: Failure
+      Expected: 1
+To be equal to: vector__equals(v1,v2)
+      Which is: 0
+[=   LOG  =]            vector_test.h :  16 | Closing test suite: VectorTest 
+[  FAILED  ] VectorTest.StandardConcept (0 ms)
+[ RUN      ] VectorTest.VectorConcept
+[=   LOG  =]            vector_test.h :  12 | Opening test suite: VectorTest 
+[=   LOG  =]           vector_test.cc :  43 | VectorTest.VectorConcept: vector__new 
+vector_test.cc:47: Failure
+      Expected: 1
+To be equal to: vector__empty(v)
+      Which is: 0
+[=   LOG  =]            vector_test.h :  16 | Closing test suite: VectorTest 
+[  FAILED  ] VectorTest.VectorConcept (0 ms)
+[ RUN      ] VectorTest.VectorFIFO
+[=   LOG  =]            vector_test.h :  12 | Opening test suite: VectorTest 
+[=   LOG  =]           vector_test.cc : 118 | VectorTest.VectorFIFO: vector__new 
+[=   LOG  =]           vector_test.cc : 121 | VectorTest.VectorFIFO: vector__push_front(...) 
+vector_test.cc:126: Failure
+      Expected: 4
+To be equal to: vector__size(v)
+      Which is: 0
+[=   LOG  =]            vector_test.h :  16 | Closing test suite: VectorTest 
+[  FAILED  ] VectorTest.VectorFIFO (0 ms)
+[ RUN      ] VectorTest.VectorLIFO
+[=   LOG  =]            vector_test.h :  12 | Opening test suite: VectorTest 
+[=   LOG  =]           vector_test.cc : 155 | VectorTest.VectorLIFO: vector__new 
+[=   LOG  =]           vector_test.cc : 158 | VectorTest.VectorLIFO: vector__push_front(...) 
+vector_test.cc:163: Failure
+      Expected: 4
+To be equal to: vector__size(v)
+      Which is: 0
+[=   LOG  =]            vector_test.h :  16 | Closing test suite: VectorTest 
+[  FAILED  ] VectorTest.VectorLIFO (0 ms)
+[----------] 4 tests from VectorTest (0 ms total)
+
+[----------] 4 tests from DequeTest
+[ RUN      ] DequeTest.StandardConcept
+[=   LOG  =]             deque_test.h :  12 | Opening test suite: DequeTest 
+[=   LOG  =]            deque_test.cc :  14 | DequeTest.StandardConcept: deque__new 
+[=   LOG  =]            deque_test.cc :  18 | DequeTest.StandardConcept: deque__equals 
+deque_test.cc:19: Failure
+      Expected: 1
+To be equal to: deque__equals(d1,d2)
+      Which is: 0
+[=   LOG  =]             deque_test.h :  16 | Closing test suite: DequeTest 
+[  FAILED  ] DequeTest.StandardConcept (0 ms)
+[ RUN      ] DequeTest.DequeConcept
+[=   LOG  =]             deque_test.h :  12 | Opening test suite: DequeTest 
+[=   LOG  =]            deque_test.cc :  43 | DequeTest.DequeConcept: deque__new 
+deque_test.cc:47: Failure
+      Expected: 1
+To be equal to: deque__empty(d)
+      Which is: 0
+[=   LOG  =]             deque_test.h :  16 | Closing test suite: DequeTest 
+[  FAILED  ] DequeTest.DequeConcept (1 ms)
+[ RUN      ] DequeTest.DequeFIFO
+[=   LOG  =]             deque_test.h :  12 | Opening test suite: DequeTest 
+[=   LOG  =]            deque_test.cc :  86 | DequeTest.DequeFIFO: deque__new 
+[=   LOG  =]            deque_test.cc :  89 | DequeTest.DequeFIFO: deque__push_front(...) 
+deque_test.cc:94: Failure
+      Expected: 4
+To be equal to: deque__size(d)
+      Which is: 0
+[=   LOG  =]             deque_test.h :  16 | Closing test suite: DequeTest 
+[  FAILED  ] DequeTest.DequeFIFO (0 ms)
+[ RUN      ] DequeTest.DequeLIFO
+[=   LOG  =]             deque_test.h :  12 | Opening test suite: DequeTest 
+[=   LOG  =]            deque_test.cc : 122 | DequeTest.DequeLIFO: deque__new 
+[=   LOG  =]            deque_test.cc : 125 | DequeTest.DequeLIFO: deque__push_front(...) 
+deque_test.cc:130: Failure
+      Expected: 4
+To be equal to: deque__size(d)
+      Which is: 0
+[=   LOG  =]             deque_test.h :  16 | Closing test suite: DequeTest 
+[  FAILED  ] DequeTest.DequeLIFO (0 ms)
+[----------] 4 tests from DequeTest (1 ms total)
+
+[----------] 3 tests from StackTest
+[ RUN      ] StackTest.StandardConcept
+[=   LOG  =]             stack_test.h :  12 | Opening test suite: StackTest 
+[=   LOG  =]            stack_test.cc :  14 | StackTest.StandardConcept: stack__new 
+[=   LOG  =]            stack_test.cc :  18 | StackTest.StandardConcept: stack__equals 
+stack_test.cc:19: Failure
+      Expected: 1
+To be equal to: stack__equals(s1,s2)
+      Which is: 0
+[=   LOG  =]             stack_test.h :  16 | Closing test suite: StackTest 
+[  FAILED  ] StackTest.StandardConcept (0 ms)
+[ RUN      ] StackTest.StackConcept
+[=   LOG  =]             stack_test.h :  12 | Opening test suite: StackTest 
+[=   LOG  =]            stack_test.cc :  43 | StackTest.StackConcept: stack__new 
+stack_test.cc:47: Failure
+      Expected: 1
+To be equal to: stack__empty(s)
+      Which is: 0
+[=   LOG  =]             stack_test.h :  16 | Closing test suite: StackTest 
+[  FAILED  ] StackTest.StackConcept (0 ms)
+[ RUN      ] StackTest.StackLIFO
+[=   LOG  =]             stack_test.h :  12 | Opening test suite: StackTest 
+[=   LOG  =]            stack_test.cc :  75 | StackTest.StackLIFO: stack__new 
+[=   LOG  =]            stack_test.cc :  78 | StackTest.StackLIFO: stack__push_front(...) 
+stack_test.cc:83: Failure
+      Expected: 4
+To be equal to: stack__size(s)
+      Which is: 0
+[=   LOG  =]             stack_test.h :  16 | Closing test suite: StackTest 
+[  FAILED  ] StackTest.StackLIFO (0 ms)
+[----------] 3 tests from StackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 11 tests from 3 test cases ran. (1 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 11 tests, listed below:
+[  FAILED  ] VectorTest.StandardConcept
+[  FAILED  ] VectorTest.VectorConcept
+[  FAILED  ] VectorTest.VectorFIFO
+[  FAILED  ] VectorTest.VectorLIFO
+[  FAILED  ] DequeTest.StandardConcept
+[  FAILED  ] DequeTest.DequeConcept
+[  FAILED  ] DequeTest.DequeFIFO
+[  FAILED  ] DequeTest.DequeLIFO
+[  FAILED  ] StackTest.StandardConcept
+[  FAILED  ] StackTest.StackConcept
+[  FAILED  ] StackTest.StackLIFO
+
+11 FAILED TESTS
+Makefile:20: recipe for target 'run' failed
