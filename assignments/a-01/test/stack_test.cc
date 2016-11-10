@@ -33,6 +33,15 @@ TEST_F(StackTest, StandardConcept)
 
   ASSERT_EQ(1, stack__equals(s1,s3));
 
+  LOG_MESSAGE("StackTest.StandardConcept: stack__reverse");
+
+  s1 = stack__reverse(s1);
+  StackValue sv1 = stack__pop(s1);
+  StackValue sv2 = stack__pop(s1);
+
+  ASSERT_EQ(stack__pop(s3), sv2);
+  ASSERT_EQ(stack__pop(s3), sv1);
+
   stack__delete(s1);
   stack__delete(s2);
   stack__delete(s3);

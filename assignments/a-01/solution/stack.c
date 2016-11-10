@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "stack.h"
 
 // Interface of Standard concept:
@@ -37,6 +38,21 @@ int stack__equals(Stack * lhs, Stack * rhs){
         if (lhs -> data[i] != rhs -> data[i]) return 0;
     }
     return 1;
+}
+
+Stack * stack__reverse(Stack * s){
+    int        k      = 0;
+    StackValue temp   = 0;
+    int        bounds = floor(s -> size / 2);
+
+    for(int i = 0; i < bounds; i++){
+        k    = s -> size - 1 - i;
+        temp = s -> data[i];
+        s -> data[i] = s -> data[k];
+        s -> data[k] = temp;
+    }
+
+    return s;
 }
 
 // Interface of Stack concept:

@@ -25,6 +25,7 @@ Stack *        stack__copy(Stack * other);
 void           stack__delete(Stack * s);
 Stack *        stack__assign(Stack * lhs, Stack * rhs);
 int            stack__equals(Stack * lhs, Stack * rhs);
+Stack *        stack__reverse(Stack * s);
 
 // Interface of Stack concept:
 
