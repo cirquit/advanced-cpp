@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "vector.h"
 
 
@@ -42,6 +43,21 @@ int vector__equals(Vector * lhs, Vector * rhs){
     return 1;
 }
 
+// inplace
+Vector * vector__reverse(Vector * v){
+    int         k      = 0;
+    VectorValue temp   = 0;
+    int         bounds = floor(v -> size / 2);
+
+    for(int i = 0; i < bounds; i++){
+        k    = v -> size - 1 - i;
+        temp =  v -> data[i];
+        v -> data[i] = v -> data[k];
+        v -> data[k] = temp;
+    }
+
+    return v;
+}
 
 // Interface of Vector concept:
 
@@ -92,7 +108,7 @@ VectorValue vector__pop_front(Vector * v){
     for(int i = 0; i < v -> size - 1; i++){
         v -> data[i] = v -> data[i+1];
     }
-    v -> size -= 1; // hier auskommentieren um den trace zu sehen
+//    v -> size -= 1; // hier auskommentieren um den trace zu sehen
     v -> data = (VectorValue *) realloc(v -> data, v -> size);
     return target;
 }
@@ -100,4 +116,5 @@ VectorValue vector__pop_front(Vector * v){
 VectorValue vector__at(Vector * v, int offset){
     return v -> data[offset];
 }
+
 
