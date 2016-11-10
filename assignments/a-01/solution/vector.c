@@ -28,14 +28,13 @@ void vector__delete(Vector * v){
 Vector * vector__assign(Vector * lhs, Vector * rhs){
     lhs -> size  = rhs -> size;
     lhs -> data = (VectorValue *) realloc(lhs -> data, lhs -> size);
-    for (int i = 0; i < rhs -> size; i++){
+    for (int i = 0; i < lhs -> size; i++){
         lhs -> data[i] = rhs -> data[i];
     }
     return lhs;
 }
 
 int vector__equals(Vector * lhs, Vector * rhs){
-    if (lhs -> size != rhs -> size) return 0;
     if (lhs -> size != rhs -> size) return 0;
     for (int i = 0; i < lhs -> size; i++){
         if (lhs -> data[i] != rhs -> data[i]) return 0;
@@ -73,7 +72,7 @@ void vector__push_back(Vector * v, VectorValue value){
 void vector__push_front(Vector * v, VectorValue value){
      v -> size += 1;
      v -> data = (VectorValue *) realloc(v -> data, v -> size);
-     for(int i = 1; i < v -> size; i++){
+     for(int i = v -> size - 1; i > 0; i--){
          v -> data[i] = v -> data[i-1];
      }
      v -> data[0] = value;
@@ -90,9 +89,10 @@ VectorValue vector__pop_back(Vector * v){
 // always O(n)
 VectorValue vector__pop_front(Vector * v){
     VectorValue target = v -> data[0];
-    for(int i = 0; i < v -> size; i++){
+    for(int i = 0; i < v -> size - 1; i++){
         v -> data[i] = v -> data[i+1];
     }
+    v -> size -= 1; // hier auskommentieren um den trace zu sehen
     v -> data = (VectorValue *) realloc(v -> data, v -> size);
     return target;
 }
