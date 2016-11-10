@@ -21,6 +21,7 @@ Vector *       vector__copy(Vector * other);
 void           vector__delete(Vector * v);
 Vector *       vector__assign(Vector * lhs, Vector * rhs);
 int            vector__equals(Vector * lhs, Vector * rhs);
+Vector *       vector__reverse(Vector * v);
 
 // Interface of Vector concept:
 

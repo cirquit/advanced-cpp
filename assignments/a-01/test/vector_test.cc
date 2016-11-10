@@ -33,6 +33,13 @@ TEST_F(VectorTest, StandardConcept)
 
   ASSERT_EQ(1, vector__equals(v1,v3));
 
+  LOG_MESSAGE("VectorTest.StandardConcept: vector__reverse");
+
+  v1 = vector__reverse(v1);
+
+  ASSERT_EQ(vector__pop_back(v3), vector__pop_front(v1));
+  ASSERT_EQ(vector__pop_back(v3), vector__pop_front(v1));
+
   vector__delete(v1);
   vector__delete(v2);
   vector__delete(v3);
