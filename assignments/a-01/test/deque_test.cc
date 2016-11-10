@@ -33,6 +33,13 @@ TEST_F(DequeTest, StandardConcept)
 
   ASSERT_EQ(1, deque__equals(d1,d3));
 
+  LOG_MESSAGE("DequeTest.StandardConcept: deque__reverse");
+
+  d1 = deque__reverse(d1);
+
+  ASSERT_EQ(deque__pop_back(d1), deque__pop_front(d3));
+  ASSERT_EQ(deque__pop_back(d1), deque__pop_front(d3));
+
   deque__delete(d1);
   deque__delete(d2);
   deque__delete(d3);

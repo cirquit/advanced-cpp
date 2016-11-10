@@ -27,6 +27,7 @@ Deque *        deque__copy(Deque * other);
 void           deque__delete(Deque * d);
 Deque *        deque__assign(Deque * lhs, Deque * rhs);
 int            deque__equals(Deque * lhs, Deque * rhs);
+Deque *        deque__reverse(Deque * d);
 
 // Interface of Deque concept:
 

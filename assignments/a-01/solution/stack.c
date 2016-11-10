@@ -39,17 +39,16 @@ int stack__equals(Stack * lhs, Stack * rhs){
     }
     return 1;
 }
-
+// inplace O(n)
 Stack * stack__reverse(Stack * s){
     int        k      = 0;
-    StackValue temp   = 0;
     int        bounds = floor(s -> size / 2);
 
     for(int i = 0; i < bounds; i++){
         k    = s -> size - 1 - i;
-        temp = s -> data[i];
-        s -> data[i] = s -> data[k];
-        s -> data[k] = temp;
+        s -> data[i] ^= s -> data[k];
+        s -> data[k] ^= s -> data[i];
+        s -> data[i] ^= s -> data[k];
     }
 
     return s;

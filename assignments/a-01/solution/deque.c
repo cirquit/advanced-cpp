@@ -50,6 +50,24 @@ int deque__equals(Deque * lhs, Deque * rhs){
     return 1;
 }
 
+// inplace O(n) with xorswap
+Deque * deque__reverse(Deque * d){
+  int sizeMax = d -> sizeBack > d -> sizeFront ? d -> sizeBack : d -> sizeFront;
+  d -> front = (DequeValue *) realloc(d -> front, sizeMax);
+  d -> back  = (DequeValue *) realloc(d -> back, sizeMax);
+
+  for (int i = 0; i < sizeMax; i++){
+      d -> front[i] ^= d -> back[i];
+      d -> back[i]  ^= d -> front[i];
+      d -> front[i] ^= d -> back[i];
+  }
+  d -> sizeFront ^= d -> sizeBack;
+  d -> sizeBack  ^= d -> sizeFront;
+  d -> sizeFront ^= d -> sizeBack;
+  return d;
+}
+
+
 
 // Interface of Deque concept:
 
