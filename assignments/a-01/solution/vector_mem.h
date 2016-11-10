@@ -6,6 +6,8 @@ typedef VectorValue *   VectorIterator;
 
 typedef struct {
   int           size;
+  int            end;
+  int          start;
   VectorValue * data;
 } Vector;
 
