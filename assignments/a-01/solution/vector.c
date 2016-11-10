@@ -51,7 +51,7 @@ Vector * vector__reverse(Vector * v){
 
     for(int i = 0; i < bounds; i++){
         k    = v -> size - 1 - i;
-        temp =  v -> data[i];
+        temp = v -> data[i];
         v -> data[i] = v -> data[k];
         v -> data[k] = temp;
     }
