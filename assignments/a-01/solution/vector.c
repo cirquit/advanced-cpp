@@ -43,17 +43,16 @@ int vector__equals(Vector * lhs, Vector * rhs){
     return 1;
 }
 
-// inplace
+// inplace O(n)
 Vector * vector__reverse(Vector * v){
     int         k      = 0;
-    VectorValue temp   = 0;
     int         bounds = floor(v -> size / 2);
 
     for(int i = 0; i < bounds; i++){
         k    = v -> size - 1 - i;
-        temp = v -> data[i];
-        v -> data[i] = v -> data[k];
-        v -> data[k] = temp;
+        v -> data[i] ^= v -> data[k];
+        v -> data[k] ^= v -> data[i];
+        v -> data[i] ^= v -> data[k];
     }
 
     return v;
