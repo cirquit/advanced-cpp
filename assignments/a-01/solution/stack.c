@@ -39,6 +39,7 @@ int stack__equals(Stack * lhs, Stack * rhs){
     }
     return 1;
 }
+
 // inplace O(n)
 Stack * stack__reverse(Stack * s){
     int        k      = 0;
@@ -64,6 +65,7 @@ int stack__empty(Stack * s){
     return s -> size == 0;
 }
 
+// O(1)
 void stack__push(Stack * s, StackValue value){
     s -> size += 1;
     s -> data = (StackValue *) realloc(s -> data, s -> size);
@@ -74,8 +76,9 @@ void stack__push(Stack * s, StackValue value){
  * One could just decrement the size and not use the realloc for
  * performance reasons, but then the memory would not be freed until the
  * Stack is not used and fully freed
+ *
+ * O(1)
  * */
-
 StackValue stack__pop(Stack * s){
     StackValue res = s -> data[s -> size-1];
     s -> size -= 1;

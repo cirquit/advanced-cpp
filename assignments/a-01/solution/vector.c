@@ -76,14 +76,14 @@ VectorIterator vector__end(Vector * v){
     return (VectorIterator) v -> data + v -> size;
 }
 
-// always O(1)
+// O(1)
 void vector__push_back(Vector * v, VectorValue value){
     v -> size += 1;
     v -> data = (VectorValue *) realloc(v -> data, v -> size);
     v -> data[v -> size - 1] = value;
 }
 
-// always O(n)
+// O(n)
 void vector__push_front(Vector * v, VectorValue value){
      v -> size += 1;
      v -> data = (VectorValue *) realloc(v -> data, v -> size);
@@ -93,7 +93,7 @@ void vector__push_front(Vector * v, VectorValue value){
      v -> data[0] = value;
 }
 
-// always O(1)
+// O(1)
 VectorValue vector__pop_back(Vector * v){
     VectorValue target = v -> data[v -> size - 1];
     v -> size -= 1;
@@ -101,7 +101,7 @@ VectorValue vector__pop_back(Vector * v){
     return target;
 }
 
-// always O(n)
+// O(n)
 VectorValue vector__pop_front(Vector * v){
     VectorValue target = v -> data[0];
     for(int i = 0; i < v -> size - 1; i++){

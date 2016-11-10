@@ -79,12 +79,14 @@ int deque__empty(Deque * d){
     return deque__size(d) == 0;
 }
 
+// O(1)
 void deque__push_back(Deque * d, DequeValue value){
     d -> sizeBack += 1;
     d -> back = (DequeValue *) realloc(d -> back, d -> sizeBack);
     d -> back[d -> sizeBack - 1] = value;
 }
 
+// O(1)
 void deque__push_front(Deque * d, DequeValue value){
     d -> sizeFront += 1;
     d -> front = (DequeValue *) realloc(d -> front, d -> sizeFront);
