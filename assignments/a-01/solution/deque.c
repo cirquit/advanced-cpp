@@ -139,6 +139,7 @@ DequeValue deque__pop_front(Deque * d){
         d -> sizeFront -= 1;
         d -> front = (DequeValue *) realloc(d -> front,
                                             d -> sizeFront * sizeof(DequeValue));
+    } else {
         res = d -> back[0];
         for(int i = 0; i < d -> sizeBack-1; i++){
             d -> back[i] = d -> back[i+1];
@@ -150,19 +151,3 @@ DequeValue deque__pop_front(Deque * d){
 
     return res;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
