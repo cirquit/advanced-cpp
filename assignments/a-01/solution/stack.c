@@ -18,13 +18,15 @@ Stack * stack__copy(Stack * other){
 
 void stack__delete(Stack * s){
     free(s -> data);
+    s -> data = nullptr;
     free(s);
 }
 
 Stack * stack__assign(Stack * lhs, Stack * rhs){
     if (lhs -> size != rhs -> size){
         lhs -> size = rhs -> size;
-        lhs -> data = (StackValue *) realloc(lhs -> data, lhs -> size);
+        lhs -> data = (StackValue *) realloc(lhs -> data,
+                                             lhs -> size * sizeof(StackValue));
     }
     for (int i = 0; i < lhs -> size; i++){
         lhs -> data[i] = rhs -> data[i];
@@ -68,7 +70,8 @@ int stack__empty(Stack * s){
 // O(1)
 void stack__push(Stack * s, StackValue value){
     s -> size += 1;
-    s -> data = (StackValue *) realloc(s -> data, s -> size);
+    s -> data = (StackValue *) realloc(s -> data,
+                                       s -> size * sizeof(StackValue));
     s -> data[s -> size-1] = value;
 }
 
@@ -82,6 +85,7 @@ void stack__push(Stack * s, StackValue value){
 StackValue stack__pop(Stack * s){
     StackValue res = s -> data[s -> size-1];
     s -> size -= 1;
-    s -> data = (StackValue *) realloc(s -> data, s -> size);
+    s -> data = (StackValue *) realloc(s -> data,
+                                       s -> size * sizeof(StackValue));
     return res;
 }

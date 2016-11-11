@@ -17,18 +17,22 @@ Deque * deque__copy(Deque * other){
 
 void deque__delete(Deque * d){
     free(d -> front);
+    d -> front = nullptr;
     free(d -> back);
+    d -> back = nullptr;
     free(d);
 }
 
 Deque * deque__assign(Deque * lhs, Deque * rhs){
     if (lhs -> sizeFront != rhs -> sizeFront){
         lhs -> sizeFront = rhs -> sizeFront;
-        lhs -> front = (DequeValue *) realloc(lhs -> front, lhs -> sizeFront);
+        lhs -> front = (DequeValue *) realloc(lhs -> front,
+                                              lhs -> sizeFront * sizeof(DequeValue));
     }
     if (lhs -> sizeBack != rhs -> sizeBack){
         lhs -> sizeBack = rhs -> sizeBack;
-        lhs -> back = (DequeValue *) realloc(lhs -> back, lhs -> sizeBack);
+        lhs -> back = (DequeValue *) realloc(lhs -> back,
+                                             lhs -> sizeBack * sizeof(DequeValue));
     }
     for(int i = 0; i < lhs -> sizeBack; i++) lhs -> back[i] = rhs -> back[i];
     for(int i = 0; i < lhs -> sizeFront; i++) lhs -> front[i] = rhs -> front[i];
@@ -53,8 +57,9 @@ int deque__equals(Deque * lhs, Deque * rhs){
 // inplace O(n) with xorswap
 Deque * deque__reverse(Deque * d){
   int sizeMax = d -> sizeBack > d -> sizeFront ? d -> sizeBack : d -> sizeFront;
-  d -> front = (DequeValue *) realloc(d -> front, sizeMax);
-  d -> back  = (DequeValue *) realloc(d -> back, sizeMax);
+  d -> front = (DequeValue *) realloc(d -> front, sizeMax * sizeof(DequeValue));
+  d -> back  = (DequeValue *) realloc(d -> back, sizeMax * sizeof(DequeValue));
+;
 
   for (int i = 0; i < sizeMax; i++){
       d -> front[i] ^= d -> back[i];
@@ -82,14 +87,16 @@ int deque__empty(Deque * d){
 // O(1)
 void deque__push_back(Deque * d, DequeValue value){
     d -> sizeBack += 1;
-    d -> back = (DequeValue *) realloc(d -> back, d -> sizeBack);
+    d -> back = (DequeValue *) realloc(d -> back,
+                                       d -> sizeBack * sizeof(DequeValue));
     d -> back[d -> sizeBack - 1] = value;
 }
 
 // O(1)
 void deque__push_front(Deque * d, DequeValue value){
     d -> sizeFront += 1;
-    d -> front = (DequeValue *) realloc(d -> front, d -> sizeFront);
+    d -> front = (DequeValue *) realloc(d -> front,
+                                        d -> sizeFront * sizeof(DequeValue));
     d -> front[d -> sizeFront - 1] = value;
 }
 
@@ -105,14 +112,17 @@ DequeValue deque__pop_back(Deque * d){
     if (d -> sizeBack != 0){
         res = d -> back[d -> sizeBack - 1];
         d -> sizeBack -= 1;
-        d -> back = (DequeValue *) realloc(d -> back, d -> sizeBack);
+        d -> back = (DequeValue *) realloc(d -> back,
+                                           d -> sizeBack * sizeof(DequeValue));
     } else {
         res = d -> front[0];
+
         for(int i = 0; i < d -> sizeFront-1; i++){
             d -> front[i] = d -> front[i+1];
         }
         d -> sizeFront -= 1;
-        d -> front = (DequeValue *) realloc(d -> front, d -> sizeFront);
+        d -> front = (DequeValue *) realloc(d -> front,
+                                            d -> sizeFront * sizeof(DequeValue));
     }
 
     return res;
@@ -129,14 +139,16 @@ DequeValue deque__pop_front(Deque * d){
     if (d -> sizeFront != 0){
         res = d -> front[d -> sizeFront - 1];
         d -> sizeFront -= 1;
-        d -> front = (DequeValue *) realloc(d -> front, d -> sizeFront);
+        d -> front = (DequeValue *) realloc(d -> front,
+                                            d -> sizeFront * sizeof(DequeValue));
     } else {
         res = d -> back[0];
         for(int i = 0; i < d -> sizeBack-1; i++){
             d -> back[i] = d -> back[i+1];
         }
         d -> sizeBack -= 1;
-        d -> back = (DequeValue *) realloc(d -> back, d -> sizeBack);
+        d -> back = (DequeValue *) realloc(d -> back,
+                                           d -> sizeBack * sizeof(DequeValue));
     }
 
     return res;

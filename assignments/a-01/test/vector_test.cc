@@ -47,7 +47,7 @@ TEST_F(VectorTest, StandardConcept)
 
 TEST_F(VectorTest, VectorConcept)
 {
-/*  LOG_MESSAGE("VectorTest.VectorConcept: vector__new");
+  LOG_MESSAGE("VectorTest.VectorConcept: vector__new");
   Vector * v = vector__new();
 
   ASSERT_EQ(0,  vector__size(v));
@@ -117,12 +117,12 @@ TEST_F(VectorTest, VectorConcept)
 
   ASSERT_EQ(1, vector__equals(v,v_empty));
   ASSERT_EQ(0, vector__size(v));
-  ASSERT_EQ(1, vector__empty(v)); */
+  ASSERT_EQ(1, vector__empty(v));
 }
 
 TEST_F(VectorTest, VectorFIFO)
 {
-/*  LOG_MESSAGE("VectorTest.VectorFIFO: vector__new");
+  LOG_MESSAGE("VectorTest.VectorFIFO: vector__new");
   Vector * v = vector__new();
 
   LOG_MESSAGE("VectorTest.VectorFIFO: vector__push_front(...)");
@@ -154,7 +154,7 @@ TEST_F(VectorTest, VectorFIFO)
   ASSERT_EQ(0,   vector__size(v));
 
   LOG_MESSAGE("VectorTest.VectorFIFO: vector__delete");
-  vector__delete(v); */
+  vector__delete(v);
 }
 
 TEST_F(VectorTest, VectorLIFO)

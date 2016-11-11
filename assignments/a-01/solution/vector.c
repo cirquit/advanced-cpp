@@ -23,19 +23,23 @@ Vector * vector__copy(Vector * other){
 
 void vector__delete(Vector * v){
     free(v -> data);
+    v -> data = nullptr;
     free(v);
 }
 
 Vector * vector__assign(Vector * lhs, Vector * rhs){
+    if (lhs == rhs) return lhs;
     lhs -> size  = rhs -> size;
-    lhs -> data = (VectorValue *) realloc(lhs -> data, lhs -> size);
-    for (int i = 0; i < lhs -> size; i++){
+    lhs -> data = (VectorValue *) realloc(lhs -> data,
+                                          lhs -> size * sizeof(VectorValue));
+    for (int i = 0; i < lhs -> size; i++){ // memcopy
         lhs -> data[i] = rhs -> data[i];
     }
     return lhs;
 }
 
 int vector__equals(Vector * lhs, Vector * rhs){
+    if (lhs == rhs) return 1;
     if (lhs -> size != rhs -> size) return 0;
     for (int i = 0; i < lhs -> size; i++){
         if (lhs -> data[i] != rhs -> data[i]) return 0;
@@ -79,14 +83,16 @@ VectorIterator vector__end(Vector * v){
 // O(1)
 void vector__push_back(Vector * v, VectorValue value){
     v -> size += 1;
-    v -> data = (VectorValue *) realloc(v -> data, v -> size);
+    v -> data = (VectorValue *) realloc(v -> data,
+                                        v -> size * sizeof(VectorValue));
     v -> data[v -> size - 1] = value;
 }
 
 // O(n)
 void vector__push_front(Vector * v, VectorValue value){
      v -> size += 1;
-     v -> data = (VectorValue *) realloc(v -> data, v -> size);
+     v -> data = (VectorValue *) realloc(v -> data,
+                                         v -> size * sizeof(VectorValue));
      for(int i = v -> size - 1; i > 0; i--){
          v -> data[i] = v -> data[i-1];
      }
@@ -97,7 +103,8 @@ void vector__push_front(Vector * v, VectorValue value){
 VectorValue vector__pop_back(Vector * v){
     VectorValue target = v -> data[v -> size - 1];
     v -> size -= 1;
-    v -> data = (VectorValue *) realloc(v -> data, v -> size);
+    v -> data = (VectorValue *) realloc(v -> data,
+                                        v -> size * sizeof(VectorValue));
     return target;
 }
 
@@ -107,8 +114,9 @@ VectorValue vector__pop_front(Vector * v){
     for(int i = 0; i < v -> size - 1; i++){
         v -> data[i] = v -> data[i+1];
     }
-//    v -> size -= 1; // hier auskommentieren um den trace zu sehen
-    v -> data = (VectorValue *) realloc(v -> data, v -> size);
+    v -> size -= 1; // hier auskommentieren um den trace zu sehen
+    v -> data = (VectorValue *) realloc(v -> data,
+                                        v -> size * sizeof(VectorValue));
     return target;
 }
 
