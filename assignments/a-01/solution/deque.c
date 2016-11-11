@@ -59,7 +59,6 @@ Deque * deque__reverse(Deque * d){
   int sizeMax = d -> sizeBack > d -> sizeFront ? d -> sizeBack : d -> sizeFront;
   d -> front = (DequeValue *) realloc(d -> front, sizeMax * sizeof(DequeValue));
   d -> back  = (DequeValue *) realloc(d -> back, sizeMax * sizeof(DequeValue));
-;
 
   for (int i = 0; i < sizeMax; i++){
       d -> front[i] ^= d -> back[i];
@@ -116,7 +115,6 @@ DequeValue deque__pop_back(Deque * d){
                                            d -> sizeBack * sizeof(DequeValue));
     } else {
         res = d -> front[0];
-
         for(int i = 0; i < d -> sizeFront-1; i++){
             d -> front[i] = d -> front[i+1];
         }
@@ -141,7 +139,6 @@ DequeValue deque__pop_front(Deque * d){
         d -> sizeFront -= 1;
         d -> front = (DequeValue *) realloc(d -> front,
                                             d -> sizeFront * sizeof(DequeValue));
-    } else {
         res = d -> back[0];
         for(int i = 0; i < d -> sizeBack-1; i++){
             d -> back[i] = d -> back[i+1];

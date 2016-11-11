@@ -114,9 +114,10 @@ VectorValue vector__pop_front(Vector * v){
     for(int i = 0; i < v -> size - 1; i++){
         v -> data[i] = v -> data[i+1];
     }
-    v -> size -= 1; // hier auskommentieren um den trace zu sehen
+    v -> size -= 1;
     v -> data = (VectorValue *) realloc(v -> data,
                                         v -> size * sizeof(VectorValue));
+    v -> data = (VectorValue *) realloc(v -> data, v -> size);
     return target;
 }
 
