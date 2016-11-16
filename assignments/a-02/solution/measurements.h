@@ -21,31 +21,23 @@ class Measurements
 public:
 
   // default constructor
-  Measurements(){}
+  Measurements() noexcept {}
 
   // copy constructor
-  Measurements(const Measurements& rhs){
-    _values = rhs.get_values();
-  }
-/*    for(auto begin = rhs.begin(); begin != rhs.end(); ++begin){
-
-    } */
+  Measurements(const Measurements & rhs);
 
   // delete
-  ~Measurements(){}
+  ~Measurements(){
+    _values.clear();
+  }
 
-  value_t &operator[](int i){
+  value_t & operator[](int i){
     return _values[i];
   }
 
-  self_t& operator=(const self_t& rhs){
-//    _values = rhs.get_values();
-  }
+  self_t & operator=(const self_t & rhs);
 
-  bool operator==(const_reference rhs) const {
-    return false;
-  }
-
+  bool operator==(const_reference rhs) const;
 
   value_t front(){
     return _values.front();
@@ -67,14 +59,6 @@ public:
     _values.clear();
   }
 
-  void insert(iterator begin_it, iterator end_it){
-    _values.clear()
-    for(auto iter = begin(); iter != end(); ++iter){
-      _values.push_back(&iter);
-      update_stats(&iter);
-    }
-  }
-
   void insert(T item){
     _values.push_back(item);
   }
@@ -87,28 +71,30 @@ public:
     return _values.end();
   }
 
-  value_t median() const{
-    return 0;
-  }
-
+  // O(1)
   double mean() const{
      return _mean;
   }
 
-  // unbiased
+  // O(1), unbiased
   double variance() const{
      return _s / (_n - 1);
   }
 
+  // O(1)
   double sigma() const{
      return sqrt(variance());
   }
 
+  // O(n)
+  value_t median() const;
+
+  void insert(iterator begin_it, iterator end_it);
+
+
 private:
 
   std::vector<T> _values;
-
-  T      _median; // would love to use optional...
 
   double _s     = 0.0;
   double _mean  = 0.0;
@@ -116,14 +102,11 @@ private:
 
   // NOT numerically stable (Knuth's algorithm for single pass variance + mean)
   // if the sample data is close to the mean, catastrophic cancellation takes place
-  void update_stats(T val){
-    double delta = val - _mean;
-    _n    += 1;
-    _mean += delta / _n;
-    _s    += delta * (val - _mean);
-  }
+  void update_stats(T val);
 };
 
 } // namespace cpppc
+
+#include "measurements.impl.h"
 
 #endif // CPPPC__A02__MEASUREMENTS_H__INCLUDED
