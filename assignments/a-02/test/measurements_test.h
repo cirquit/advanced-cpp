@@ -2,6 +2,7 @@
 #define CPPPC__A02__MEASUREMENTS_TEST_H__INCLUDED
 
 #include <gtest/gtest.h>
+#include <cmath>
 #include "TestBase.h"
 
 class MeasurementsTest : public ::testing::Test {
@@ -21,6 +22,12 @@ public:
 
   virtual void TearDown() {
   }
+
+  // round to 2 decimal places for the tests
+  inline double round2(double d) {
+    return std::roundf(d * 100) / 100;
+  }
+
 
 };
 

@@ -91,6 +91,7 @@ public:
 
   void insert(iterator begin_it, iterator end_it){
     _values.clear();
+    clear_stats();
     for(auto iter = begin_it; iter != end_it; ++iter){
       _values.push_back(*iter);
       update_stats(*iter);
@@ -110,9 +111,9 @@ public:
      return _mean;
   }
 
-  // O(1), unbiased
+  // O(1), biased
   double variance() const{
-     return _s / (_n - 1);
+     return _s / (_n);
   }
 
   // O(1)
@@ -129,26 +130,11 @@ public:
 
     if (sorted.size() % 2 == 0){
       int i = sorted.size() / 2;
-      return (sorted[i] + sorted[i-1] / 2);
+      return (sorted[i] + sorted[i-1]) / 2;
     } else {
       int i = std::ceil(sorted.size() / 2);
       return sorted[i];
     }
-
-/*    if (_values.size() == 0) return 0;
-    value_t value = *begin();
-    double diff = std::abs(mean() - value);
-    double cur_diff;
-
-    for(auto iter = begin(); iter != end(); iter++){
-       cur_diff = std::abs(mean() - *iter);
-       std::cout << mean() << ", " << value << ", " << cur_diff << std::endl;
-       if(cur_diff < diff) {
-         value = *iter;
-         diff  = cur_diff;
-       }
-    }
-    return value; */
   }
 
 
@@ -168,6 +154,12 @@ private:
     _n    += 1;
     _mean += delta / _n;
     _s    += delta * (val - _mean);
+  }
+
+  void clear_stats(){
+    _s    = 0.0;
+    _mean = 0.0;
+    _n    = 0.0;
   }
 
 };

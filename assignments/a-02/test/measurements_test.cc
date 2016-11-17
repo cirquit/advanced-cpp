@@ -13,7 +13,6 @@
 #include <iomanip>
 #include <string>
 
-
 using cpppc::Measurements;
 
 template <typename Iter>
@@ -28,6 +27,7 @@ void print_range(
   }
   LOG_MESSAGE("%*s: {%s}", 10, name.c_str(), oss.str().c_str());
 }
+
 
 TEST_F(MeasurementsTest, SequenceContainerConcept)
 {
@@ -91,7 +91,7 @@ TEST_F(MeasurementsTest, MeasurementsConcept)
 
   LOG_MESSAGE("MeasurementsTest.MeasurementsConcept: mean:   %f",
               m.mean());
-  ASSERT_DOUBLE_EQ(21.4, m.mean());
+  ASSERT_DOUBLE_EQ(21.399999999999999, m.mean());
 
   LOG_MESSAGE("MeasurementsTest.MeasurementsConcept: median: %d",
               m.median());
@@ -99,7 +99,7 @@ TEST_F(MeasurementsTest, MeasurementsConcept)
 
   LOG_MESSAGE("MeasurementsTest.MeasurementsConcept: var:    %f",
               m.variance());
-  ASSERT_DOUBLE_EQ(34.24, m.variance());
+  ASSERT_DOUBLE_EQ(34.240000000000002, m.variance());
 
   LOG_MESSAGE("MeasurementsTest.MeasurementsConcept: sigma:  %f",
               m.sigma());
