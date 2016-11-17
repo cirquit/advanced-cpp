@@ -37,11 +37,14 @@ public:
     return _values[i];
   }
 
-  // TODO find a solution to reduce complexity
-  //
-  // if this references will be changed, every calculation 
+  // if this references will be changed, every calculation
   // will be in O(n)
+  //
+  // normally we use single pass calculations for big data or streams
+  // so this operator should only return a const value_t &, if we want
+  // to access it
   value_t & operator[](int i){
+    _bracket_insert = true;
     return _values[i];
   }
 
@@ -88,7 +91,6 @@ public:
     _values.push_back(ref);
   }
 
-
   void insert(iterator begin_it, iterator end_it){
     _values.clear();
     clear_stats();
@@ -107,24 +109,28 @@ public:
   }
 
   // O(1)
-  double mean() const{
+  double mean(){
+//     recalculate();
      return _mean;
   }
 
   // O(1), biased
-  double variance() const{
+  double variance(){
+//     recalculate();
      return _s / (_n);
   }
 
   // O(1)
-  double sigma() const{
+  double sigma(){
+//     recalculate();
      return sqrt(variance());
   }
 
   //   O(n * logn) for ordered data
   // + O(n) for the vector copy
-  value_t median() const{
+  value_t median(){
     if (_values.size() == 0) return 0;
+//    recalculate();
     std::vector<value_t> sorted(_values);
     std::sort(sorted.begin(), sorted.end());
 
@@ -146,11 +152,13 @@ private:
   double _mean  = 0.0;
   double _n     = 0.0;
 
+  bool   _bracket_insert = false;
+
   // NOT numerically stable (Knuth's algorithm for single pass variance + mean)
   // if the sample data is close to the mean, catastrophic cancellation
   // takes place
   void update_stats(T & val){
-     double delta = val - _mean;
+    double delta = val - _mean;
     _n    += 1;
     _mean += delta / _n;
     _s    += delta * (val - _mean);
@@ -161,6 +169,16 @@ private:
     _mean = 0.0;
     _n    = 0.0;
   }
+
+/*  void recalculate(){
+    if (_bracket_insert) {
+      clear_stats();
+      for(auto iter = begin(); iter != end(); ++iter){
+        update_stats(*iter);
+      }
+      _bracket_insert = false;
+    }
+  } */ 
 
 };
 
