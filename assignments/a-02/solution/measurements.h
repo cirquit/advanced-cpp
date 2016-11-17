@@ -53,18 +53,11 @@ public:
     return *this;
   }
 
-  bool      operator==(const_reference other) const{
+  bool operator==(const self_t & other) const{
     if (this == &other) return true;
     if (_values == other._values) return true;
     return false;
   }
-
-  bool      operator==(reference other) const{
-    if (this == &other) return true;
-    if (_values == other._values) return true;
-    return false;
-  }
-
 
   value_t front(){
     return _values.front();
@@ -127,20 +120,35 @@ public:
      return sqrt(variance());
   }
 
-  // O(n)
+  //   O(n * logn) for ordered data
+  // + O(n) for the vector copy
   value_t median() const{
-    value_t value;
-    double diff = *begin() - mean();
+    if (_values.size() == 0) return 0;
+    std::vector<value_t> sorted(_values);
+    std::sort(sorted.begin(), sorted.end());
+
+    if (sorted.size() % 2 == 0){
+      int i = sorted.size() / 2;
+      return (sorted[i] + sorted[i-1] / 2);
+    } else {
+      int i = std::ceil(sorted.size() / 2);
+      return sorted[i];
+    }
+
+/*    if (_values.size() == 0) return 0;
+    value_t value = *begin();
+    double diff = std::abs(mean() - value);
     double cur_diff;
 
-    for(auto iter = begin(); iter != end(); ++iter){
-       cur_diff = *iter - mean();
+    for(auto iter = begin(); iter != end(); iter++){
+       cur_diff = std::abs(mean() - *iter);
+       std::cout << mean() << ", " << value << ", " << cur_diff << std::endl;
        if(cur_diff < diff) {
          value = *iter;
          diff  = cur_diff;
        }
     }
-    return value;
+    return value; */
   }
 
 
