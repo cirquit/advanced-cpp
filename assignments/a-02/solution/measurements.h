@@ -20,13 +20,10 @@ class Measurements
 
 public:
 
-  // default constructor
   Measurements() noexcept {}
 
-  // copy constructor
-  Measurements(const Measurements & rhs);
+  Measurements(const self_t & other);
 
-  // delete
   ~Measurements(){
     _values.clear();
   }
@@ -35,9 +32,9 @@ public:
     return _values[i];
   }
 
-  self_t & operator=(const self_t & rhs);
+  self_t &  operator=(const self_t & rhs);
 
-  bool operator==(const_reference rhs) const;
+  bool      operator==(const_reference rhs);
 
   value_t front(){
     return _values.front();

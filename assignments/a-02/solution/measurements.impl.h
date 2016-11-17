@@ -3,14 +3,17 @@
 
 namespace cpppc {
 
-Measurements(const Measurements& other){
+// self_t is not visible? - why
+template <typename T>
+Measurements<T>(const Measurements<T> & other){
   _values = other._values;
   _n      = other._n;
   _s      = other._s;
   _mean   = other._mean;
 }
 
-self_t & operator=(const self_t& other){
+template <typename T>
+self_t & operator=(const Measurements<T> & other){
   _values = other._values;
   _n      = other._n;
   _s      = other._s;
@@ -20,9 +23,10 @@ self_t & operator=(const self_t& other){
 
 // TODO
 bool operator==(const_reference rhs) const {
+  if (*this == rhs) return true;
+  if (_values == rhs._values) return true;
   return false;
 }
-
 
 void insert(iterator begin_it, iterator end_it){
   _values.clear()
@@ -32,7 +36,6 @@ void insert(iterator begin_it, iterator end_it){
   }
 }
 
-// O(n)
 value_t median() const{
 
   value_t value;
@@ -50,8 +53,6 @@ value_t median() const{
   return value;
 }
 
-// NOT numerically stable (Knuth's algorithm for single pass variance + mean)
-// if the sample data is close to the mean, catastrophic cancellation takes place
 void update_stats(T val){
   double delta = val - _mean;
   _n    += 1;
