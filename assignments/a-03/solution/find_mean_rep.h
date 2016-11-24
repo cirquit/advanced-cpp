@@ -9,7 +9,6 @@
 
 namespace cpppc {
 
-
 // naive implementation O(2n)
 template <class Iter>
 Iter find_mean_rep(Iter first, Iter last) {
@@ -21,28 +20,32 @@ Iter find_mean_rep(Iter first, Iter last) {
   int        n = 0;
   value_t  sum = 0;
 
-  for(auto iter = first; iter != last; iter++){
-    sum += &iter;
-    n   += 1;
-  }
+  std::for_each(first, last,
+      [&](value_t & x) {
+        sum += x;
+        n   += 1;
+      });
 
-  mean = sum / n;
-  value_t diff = abs(mean - &first);
-  Iter cur = first;
+  mean              = sum / n;
+  n                 = 0;
+  int result_offset = 0;
+  value_t diff  = std::abs(mean - *first);
 
-  for(auto iter = (first+1); iter != last; iter++){
-    if (abs((mean - &iter)) < diff){
-      diff = abs(mean - &iter);
-      cur  = iter;
-    }
-  }
+  std::for_each(first, last,
+      [&](value_t & x) {
+        double cur_diff = std::abs(mean - x);
+        if (cur_diff < diff){
+          diff   = cur_diff;
+          result_offset = n;
+        }
+        n++;
+      });
 
-  return cur;
+
+  std::advance(first,result_offset);
+  return first;
 }
 
 } // namespace cpppc
-
-
-
 
 #endif // CPPPC__S03__FIND_MEAN_REP_H__INCLUDED
