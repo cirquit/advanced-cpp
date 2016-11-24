@@ -17,7 +17,7 @@ void insertWith(K key, V value, std::unordered_map<K,V> umap, std::function<V (V
     if(miter == umap.end()) {
         umap[key] = value;
     } else {
-        umap[key] = f(&miter, value);
+        umap[key] = f(miter->first, value);
     }
 }
 
@@ -30,15 +30,15 @@ inline Iter histogram(Iter first, Iter last) {
     std::vector<value_t>            res;
 
     for(auto iter = first; iter != last; ++iter){
-        insertWith(&iter, 1, umap,
+        insertWith(*iter, 1, umap,
             [](int a, int b) -> int { return a + b; }
         );
     }
 
    for(auto iter = first; iter != last; ++iter){
-      auto miter = umap.find(&iter);
+      auto miter = umap.find(*iter);
       if(miter != umap.end()){
-          res.push_back(&miter);
+          res.push_back(miter->first);
           umap.erase(miter);
       }
    }

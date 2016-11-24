@@ -32,6 +32,9 @@ class sparse_array
   typedef sparse_array<T, N>                      self_t;
   typedef detail::sparse_array_proxy_ref<self_t>  proxy_reference;
   typedef int                                     index_t;
+  typedef       T                                 value_t;
+  typedef       T &                             reference;
+  typedef const T &                       const_reference;
 
 public:
 
@@ -42,7 +45,8 @@ public:
 
 public:
 
-  // YOUR IMPLEMENTATION HERE
+  
+
 
 };
 
