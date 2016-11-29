@@ -36,6 +36,7 @@ inline Iter histogram(Iter first, Iter last) {
           auto miter = umap.find(x);
           if (miter != umap.end()){
             x = miter->second;
+            umap.erase(miter);
             return true;
           } else {
             return false;

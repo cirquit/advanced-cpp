@@ -1,0 +1,10 @@
+* how to access the size_t parameter in template (solved..i think)
+* what abstraction to use, should i use the iterator to implement 'at'?
+* compiler explorer c++ godbolt.org
+
+
+operator int() const {
+
+}
+
+MyValueType(int v) { _v = v :w
