@@ -8,6 +8,9 @@ namespace cpppc {
 namespace detail {
 
 template <class SparseArrayT>
+class sparse_array_proxy_ref;
+
+template <class SparseArrayT>
 class sparse_array_iterator
 {
   private:
@@ -17,11 +20,11 @@ class sparse_array_iterator
   public:
     using iterator_category = std::random_access_iterator_tag;
     using difference_type   = std::ptrdiff_t;
-    using value_type        = SparseArrayT;
-    using pointer           = SparseArrayT *;
-    using reference         = SparseArrayT &;
+    using elem_t            = typename SparseArrayT::value_t; // compiler told me to use typename, why tho?
+    using value_type        = elem_t;
+    using pointer           = elem_t *;
+    using reference         = elem_t &;
     using proxy_reference   = sparse_array_proxy_ref<SparseArrayT>;
-    using elem_type         = SparseArrayT::value_type;
 
   public:
     sparse_array_iterator(
@@ -33,30 +36,30 @@ class sparse_array_iterator
 
 # if 0
     const value_type & operator*() const { return *this; }    we use * to return the reference in every other function,
-                                                              but now we 'overloaded' it to return the value_type, how the
-                                                              compiler know what to do?
+                                                              but now we 'overloaded' it to return the value_type, how does
+                                                              the compiler know what to do?
 # endif
-    proxy_reference & operator*()       {                       return proxy_reference(_sarr, _idx);  }
-    const elem_type & operator*() const { return const_cast<elem_type>(proxy_reference(_sarr, _idx)); }
+    proxy_reference & operator*()       {                    return proxy_reference(_sarr, _idx);  }
+    const elem_t    & operator*() const { return const_cast<elem_t>(proxy_reference(_sarr, _idx)); }
 
-    inline self_t & operator++()   {                     ++_idx; return *this  }
+    inline self_t & operator++()   {                     ++_idx; return *this; }
     inline self_t & operator++(int){ self_t res = *this; ++_idx; return res;   }
 
-    friend inline self_t operator+(difference_type lhs, const self_t & rhs) const {
+    friend inline self_t operator+(difference_type lhs, const self_t & rhs) {
       return sparse_array_iterator(rhs._sarr, rhs._idx + lhs);
     }
-    friend inline self_t operator-(difference_type lhs, const self_t & rhs) const {
+    friend inline self_t operator-(difference_type lhs, const self_t & rhs) {
       return sparse_array_iterator(rhs._sarr, rhs._idx - lhs);
     }
-    inline self_t & operator+=(difference_type rhs) { _idx += rhs; return *this; }
-    inline self_t & operator-=(difference_type rhs) { _idx -= rhs; return *this; }
+    inline self_t & operator+=(difference_type rhs)      {        _idx += rhs; return *this; }
+    inline self_t & operator-=(difference_type rhs)      {        _idx -= rhs; return *this; }
     inline self_t & operator+(difference_type rhs) const { self_t temp = this; return temp += rhs; }
     inline self_t & operator-(difference_type rhs) const { self_t temp = this; return temp -= rhs; }
-
+ 
     inline bool operator==(const self_t & rhs) const {
       return (*this  == rhs)
           || ( _idx  == rhs._idx
-          &&  &_sarr == &(other._sarr));
+          &&  *_sarr == *rhs._sarr);
     }
     inline bool operator!=(const self_t & other) const { return !(*this == other); }
     inline bool operator<(const self_t & other)  const { return _idx < other._idx; }
@@ -77,11 +80,11 @@ class sparse_array_proxy_ref
     typedef sparse_array_iterator<SparseArrayT> self_t;
     typedef long                                index_t;
     typedef SparseArrayT &                      reference;
-    typedef SparseArrayT::value_t               elem_t;
+    typedef typename SparseArrayT::value_t      elem_t;    // same question as in #27
 
   public:
     sparse_array_proxy_ref(
-        refernece sarr
+        reference sarr
       , index_t idx)
       : _sarr(sarr)
       , _idx(idx)
@@ -89,14 +92,46 @@ class sparse_array_proxy_ref
 
     const operator elem_t() { return get_element(); }
 
-    inline operator[](index_t){
-      
-      
+    self_t & operator=(self_t & other){
+      if (&this == other) return *this;
+      _sarr[_idx] = static_cast<elem_t>(other);
+      return _sarr[_idx];
     }
+
+    self_t & operator=(elem_t & other){
+      _sarr._umap[_idx] = other;
+      return *this;
+    }
+
+    bool operator==(self_t & other){
+      if (*this == other) return true;
+      return static_cast<elem_t>(*this)
+          == static_cast<elem_t>(other);
+    }
+
+    bool operator!=(self_t & other){ return !(*this == other);}
+
+    bool operator<(self_t & other){
+      return static_cast<elem_t>(*this)
+           < static_cast<elem_t>(other);
+    }
+
+    bool operator>(self_t & other){
+      return static_cast<elem_t>(*this)
+           > static_cast<elem_t>(other);
+    }
+
+    bool operator>=(self_t & other){ return !(*this < other); }
+    bool operator<=(self_t & other){ return !(*this > other); }
+
+    void swap(self_t & lhs, self_t & rhs) {
+      // TODO 
+    }
+
 
   private:
 
-    value_t get_element(){
+    elem_t get_element(){
       auto miter = _sarr.umap.find(_idx);
       if(miter == _sarr.umap.end()){
         return _sarr.default_value;
@@ -117,6 +152,8 @@ class sparse_array_proxy_ref
 template <class T, std::size_t N>
 class sparse_array
 {
+
+public:
   typedef sparse_array<T, N>                      self_t;
   typedef detail::sparse_array_proxy_ref<self_t>  proxy_reference;
   typedef int                                     index_t;
@@ -173,8 +210,6 @@ public:
     _default_value = value;
   }
 
-  void swap(self_t & other) { }
-
   bool operator==(const self_t & rhs){
     const self_t & lhs = *this;
     return lhs == rhs
@@ -205,11 +240,10 @@ public:
   const_reference get(self_t & value){
     return value.at[I];
   }
-
-  void swap(self_t & lhs, self_t & rhs) {
-    // check bounds
-  }
 # endif
+  void swap(self_t & lhs, self_t & rhs) {
+    // TODO 
+  }
 
 private:
 
