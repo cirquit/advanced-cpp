@@ -90,20 +90,33 @@ class sparse_array_proxy_ref
       , _idx(idx)
     { }
 
-    const operator elem_t() { return get_element(); }
+    operator elem_t() const { return get_element(); }
 
-    self_t & operator=(self_t & other){
+// i just can't get the viable candidate function :(
+    self_t & operator=(self_t & other) const {
       if (&this == other) return *this;
       _sarr[_idx] = static_cast<elem_t>(other);
       return _sarr[_idx];
     }
 
-    self_t & operator=(elem_t & other){
+    void operator=(self_t & lhs, self_t & rhs) const {
+      if (lhs == rhs) return lhs;
+      lhs._sarr[lhs._idx] = static_cast<elem_t>(rhs);
+      return lhs;
+    }
+
+    void operator=(self_t & lhs, elem_t & rhs) const {
+      if (lhs == rhs) return lhs;
+      lhs._sarr[lhs._idx] = rhs;
+    }
+//
+
+    self_t & operator=(elem_t & other) const {
       _sarr._umap[_idx] = other;
       return *this;
     }
 
-    bool operator==(self_t & other){
+    bool operator==(self_t & other) const {
       if (*this == other) return true;
       return static_cast<elem_t>(*this)
           == static_cast<elem_t>(other);
@@ -128,9 +141,7 @@ class sparse_array_proxy_ref
       // TODO 
     }
 
-
   private:
-
     elem_t get_element(){
       auto miter = _sarr.umap.find(_idx);
       if(miter == _sarr.umap.end()){
@@ -174,6 +185,12 @@ public:
   sparse_array(value_t def)
     : _begin(0)
     , _default_value(def)
+    , _asize(N)
+  { }
+
+  sparse_array()
+    : _begin(0)
+    , _default_value(0)
     , _asize(N)
   { }
 
