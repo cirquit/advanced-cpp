@@ -212,11 +212,15 @@ public:
   proxy_reference back()       { return at(_asize-1); }
   const_reference back() const { return at(_asize-1); }
 
-  iterator       begin()       { return _begin; }
-  const iterator begin() const { return _begin; }
+  iterator       begin()        { return _begin; }
+  iterator       rbegin()       { return _begin + _asize - 1; }
+  const iterator begin()  const { return _begin; }
+  const iterator rbegin() const { return _begin + _asize - 1; }
 
-  iterator       end()       { return _begin + _asize; }
-  const iterator end() const { return _begin + _asize; }
+  iterator       end()        { return _begin + _asize; }
+  iterator       rend()       { return _begin - 1; }
+  const iterator end()  const { return _begin + _asize; }
+  const iterator rend() const { return _begin - 1; }
 
   size_t size()     const { return _asize;      }
   bool   empty()    const { return size() == 0; }
