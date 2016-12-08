@@ -62,10 +62,8 @@ class Pool
       if (melement != _set.end()){
         value_t element = *melement;
         _set.erase(melement);
-        std::cout << *melement << std::endl;
         return element;
       } else if (_default_size > 0){
-        std::cout << "default" << std::endl;
         return _default_value;
       } else {
         throw std::length_error("cpppc:Pool::acquire - pool is empty");
