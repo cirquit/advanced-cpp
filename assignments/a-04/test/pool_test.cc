@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iterator>
-
+#include <stdexcept>
 
 using cpppc::Pool;
 
@@ -27,8 +27,8 @@ TEST_F(PoolTest, SequentialDefaultConstructed)
 
   // Default-constructed ints have value 0:
   EXPECT_EQ(0, e1);
-  EXPECT_EQ(0, e1);
-  EXPECT_EQ(0, e1);
+  EXPECT_EQ(0, e2);
+  EXPECT_EQ(0, e3);
 
   pool.release(e1);
 
@@ -36,9 +36,24 @@ TEST_F(PoolTest, SequentialDefaultConstructed)
 
   EXPECT_EQ(0, e1_2);
 
-  pool.release(e1_2);
-  pool.release(e2);
-  pool.release(e3);
+  try { pool.release(e1_2); }
+  catch(std::invalid_argument const & err) {
+    EXPECT_EQ(err.what()
+           , std::string("cpppc::Pool::release - duplicate element insertion"));
+  }
+
+  try { pool.release(e2); }
+  catch(std::invalid_argument const & err) {
+    EXPECT_EQ(err.what()
+           , std::string("cpppc::Pool::release - duplicate element insertion"));
+  }
+
+  try { pool.release(e3); }
+  catch(std::invalid_argument const & err) {
+    EXPECT_EQ(err.what()
+          , std::string("cpppc::Pool::release - duplicate element insertion"));
+  }
+
 }
 
 TEST_F(PoolTest, SequentialRangeConstructed)
