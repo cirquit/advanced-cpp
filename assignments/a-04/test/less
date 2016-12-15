@@ -1,8 +1,0 @@
-Note: Google Test filter = PoolTest.Seq*
-[==========] Running 2 tests from 1 test case.
-[----------] Global test environment set-up.
-[----------] 2 tests from PoolTest
-[ RUN      ] PoolTest.SequentialDefaultConstructed
-[=   LOG  =]              pool_test.h :  12 | Opening test suite: PoolTest 
-[=   LOG  =]             pool_test.cc :  18 | PoolTest.SequentialDefaultConstructed 
-1
