@@ -1,5 +1,6 @@
 
 #include "black_friday_test.h"
+#include "solution/person.h"
 
 #include <gtest/gtest.h>
 
@@ -12,7 +13,14 @@
 #include <cstdlib>
 #include <unordered_map>
 
+TEST_F(BlackFridayTest, HordeTest)
+{
+  LOG_MESSAGE("BlackFridayTest.RandomAccessIterators");
+  std::cout << "Test done!" << std::endl;
+}
 
+
+/* 
 enum WalmartProduct : int {
   Couch,
   FlatscreenTV,
@@ -69,4 +77,4 @@ TEST_F(BlackFridayTest, HordeTest)
   //int num_total_products = walmart.size() + toysrus.size() + kmart.size();
   //std::cout << num_total_products << std::endl;
 }
-
+*/
