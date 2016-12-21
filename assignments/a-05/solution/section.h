@@ -4,6 +4,8 @@
 #include "worker.h"
 #include "person.h"
 
+#include <mutex>
+#include <set>
 #include <numeric>
 #include <algorithm>
 #include <string>
@@ -35,10 +37,22 @@ class Section
                    });
     }
 
+    void enque(Person & person)
+    {
+      _section_register.insert(person.person_id);
+    }
+
+    // please do not call this one for another person :x
+    void kick(Person & person)
+    {
+      // mutex
+      _section_register.erase(person.person_id);
+    }
+
   private:
     std::string                              _name;
     std::unordered_map<article_name_t, int>  _section_goods;
-    std::unordered_map<person_id_t, bool>    _section_register;
+    std::set<person_id_t>                    _section_register;
     std::vector<Worker>                      _workers;
 };
 

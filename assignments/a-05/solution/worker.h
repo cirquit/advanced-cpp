@@ -33,6 +33,13 @@ class Worker
       _que.remove(person);
     }
 
+    void enque_person(const Person & person)
+    {
+      _que.push_back(person);  // FIFO
+//      _que.push_front(person); // LIFO
+    }
+
+
     Worker(const self_t & other) = default;
     self_t & operator=(const self_t & other) = default;
 

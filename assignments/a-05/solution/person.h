@@ -30,7 +30,7 @@ class Person
 
     std::thread its_go_time()
     {
-        return std::thread( [=] { run(); });
+      return std::thread( [=] { run(); });
     }
 
     bool operator==(const Person & rhs) const
