@@ -53,4 +53,4 @@ class Shop
 } // namespace cpppc
 
 
-#endif CPPPC__A05__SHOP_H
+#endif 

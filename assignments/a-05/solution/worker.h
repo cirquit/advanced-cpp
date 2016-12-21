@@ -1,6 +1,7 @@
 #ifndef CPPPC__A05__WORKER_H
 #define CPPPC__A05__WORKER_H
 
+#include "section.h"
 #include "person.h"
 
 #include <numeric>
@@ -15,15 +16,16 @@ namespace cpppc
 class Worker
 {
   typedef std::string article_name_t;
+  typedef Worker      self_t;
 
   public:
 
     Worker(std::string name
          , article_name_t article_name
-         , std::unordered_map<article_name_t, int> & section_goods)
+         , Section & my_section)
     : _name(name)
     , _article_name(article_name)
-    , _section_goods(section_goods)
+    , _my_section(my_section)
     { }
 
     void kick_person(const Person & person)
@@ -31,19 +33,21 @@ class Worker
       _que.remove(person);
     }
 
-    article_name_t supported_article()
+    Worker(const self_t & other) = default;
+    self_t & operator=(const self_t & other) = default;
+
+    const article_name_t supported_article() const
     {
       return _article_name;
     }
 
   private:
-
+    std::string                               _name;
     std::list<Person>                         _que;
     article_name_t                            _article_name;
-    std::unordered_map<article_name_t, int> & _section_goods;
-
+    Section &                                 _my_section;
 };
 
 } // namespace cpppc
 
-#endif CPPPC__A05__WORKER_H
+#endif 

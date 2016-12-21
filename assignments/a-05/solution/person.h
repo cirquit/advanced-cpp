@@ -15,7 +15,8 @@ namespace cpppc {
 
 class Person
 {
-  typedef int person_id_t;
+  typedef int         person_id_t;
+  typedef std::string article_name_t;
 
   public:
 
@@ -34,12 +35,12 @@ class Person
 
     bool operator==(const Person & rhs) const
     {
-      return _person_id == rhs.person_id;
+      return _person_id == rhs._person_id;
     }
 
     bool operator!=(const Person & rhs) const
     {
-      return !(this == rhs);
+      return !(*this == rhs);
     }
   private:
 
@@ -54,11 +55,11 @@ class Person
     Shop _shop1;
     Shop _shop2;
     Shop _shop3;
-    person_id_t                          _person_id;
-    std::unordered_map<std::string, int> _needs;
+    person_id_t                             _person_id;
+    std::unordered_map<article_name_t, int> _needs;
 };
 
 
 } // namespace cpppc
 
-#endif CPPPC__A05__PERSON_H
+#endif 

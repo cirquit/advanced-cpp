@@ -1,6 +1,7 @@
 
 #include "black_friday_test.h"
 #include "solution/person.h"
+#include "solution/worker.h"
 
 #include <gtest/gtest.h>
 
