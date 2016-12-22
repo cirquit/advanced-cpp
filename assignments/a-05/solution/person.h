@@ -7,7 +7,7 @@
 #include <atomic>
 #include <thread>
 #include <unordered_map>
-
+#include <chrono>
 
 namespace cpppc {
 
@@ -20,11 +20,9 @@ class Person
 
   public:
 
-    Person(Shop * shop1, Shop * shop2, Shop * shop3
+    Person(std::vector<const Shop *> shop_list
          , const person_id_t person_id)
-    : _shop1(shop1)
-    , _shop2(shop2)
-    , _shop3(shop3)
+    : _shop_list(shop_list)
     , _person_id(person_id)
     { }
 
@@ -43,29 +41,36 @@ class Person
       return !(*this == rhs);
     }
 
-    person_id_t get_id()
+    const person_id_t & get_id() const
     {
       return _person_id;
     }
+
+    void timeout(int seconds) const;
+
+    void leave_store();
+
+    void enter_store(const Shop * shop);
 
   private:
 
     void run()
     {
       // policy here
+      // if _cur_shop !has_value && _needs.size() > 0 then do something
+      // else quit
     }
-
 
   private:
 
-    Shop * _shop1;
-    Shop * _shop2;
-    Shop * _shop3;
-    person_id_t                             _person_id;
+    std::vector<const Shop *>               _shop_list;
+    const person_id_t                       _person_id;
     std::unordered_map<article_name_t, int> _needs;
+    std::pair<const Shop *, bool>           _cur_shop; // optional only since c++17
+
 };
 
 
 } // namespace cpppc
 
-#endif 
+#endif

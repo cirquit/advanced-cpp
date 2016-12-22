@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <list>
+#include <functional>
 
 namespace cpppc
 {
@@ -16,6 +17,7 @@ class Person;
 class Worker
 {
   typedef std::string article_name_t;
+  typedef int         person_id_t;
   typedef Worker      self_t;
 
   public:
@@ -28,17 +30,19 @@ class Worker
     , _my_section(my_section)
     { }
 
-    void kick_person(const Person & person)
+    void kick_person(const Person * person)
     {
-      _que.remove(person.get_id());
+      _que.remove(person);
+      // _que.remove(std::cref(person));
       // TODO notify person
     }
 
-    void enque_person(const Person & person)
+    void enque_person(const Person * person)
     {
       _que.push_back(person);  // FIFO
-//      _que.push_front(person); // LIFO
-//    // TODO notify person
+//      _que.push_back(std::cref(person));  // FIFO
+//      _que.push_front(person.get_id()); // LIFO
+    // TODO notify person
     }
 
     const article_name_t supported_article() const
@@ -47,10 +51,10 @@ class Worker
     }
 
   private:
-    std::string                               _name;
-    std::list<Person>                         _que;
-    article_name_t                            _article_name;
-    Section *                                 _my_section;
+    std::string                 _name;
+    std::list<const Person *>   _que;
+    article_name_t              _article_name;
+    Section *                   _my_section;
 };
 
 } // namespace cpppc

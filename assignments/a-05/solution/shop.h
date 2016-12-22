@@ -5,11 +5,12 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
+#include <mutex>
 
 namespace cpppc
 {
 
+class Person;
 class Section;
 
 class Shop
@@ -28,17 +29,16 @@ class Shop
       _sections = distribute_goods(section_count);
     }
 
-    void enter(int id)
-    {
-      // wait for 1 second
-      // add to person-map
-    }
+    void enter(Person * person);
+
+    void leave(Person * person);
 
   private:
 
     std::vector<Section> distribute_goods(int section_count)
     {
-       return std::vector<Section>(); 
+      // TODO
+      return std::vector<Section>();
     }
 
 
@@ -47,7 +47,7 @@ class Shop
     std::string                             _name;
     std::unordered_map<article_name_t, int> _goods;
     std::vector<Section>                    _sections;
-    std::unordered_map<person_id_t, bool>   _register;
+    std::set<person_id_t>                   _register;
 };
 
 } // namespace cpppc

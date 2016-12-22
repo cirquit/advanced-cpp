@@ -1,9 +1,9 @@
 
 #include "black_friday_test.h"
-#include "solution/person.h"
-#include "solution/worker.h"
-#include "solution/section.h"
 #include "solution/shop.h"
+#include "solution/section.h"
+#include "solution/worker.h"
+#include "solution/person.h"
 
 #include <gtest/gtest.h>
 

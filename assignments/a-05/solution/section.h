@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 namespace cpppc
 {
 
@@ -24,7 +23,7 @@ class Section
   public:
 
     Section(std::string name
-          , std::unordered_map<article_name_t, int> section_goods)
+          , std::unordered_map<article_name_t, int> section_goods);
     : _name(name)
     , _section_goods(section_goods)
     {
@@ -36,17 +35,9 @@ class Section
                    });
     }
 
-    void enque(Person & person)
-    {
-      _section_register.insert(person.get_id());
-    }
+    void enque(Person & person);
 
-    // please do not call this one for another person :x
-    void kick(Person & person)
-    {
-      // mutex
-      _section_register.erase(person.get_id());
-    }
+    void deque(Person & person);
 
   private:
     std::string                              _name;
