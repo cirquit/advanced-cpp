@@ -1,8 +1,6 @@
 #ifndef CPPPC__A05__PERSON_H
 #define CPPPC__A05__PERSON_H
 
-#include "shop.h"
-
 #include <numeric>
 #include <algorithm>
 #include <string>
@@ -13,6 +11,8 @@
 
 namespace cpppc {
 
+class Shop;
+
 class Person
 {
   typedef int         person_id_t;
@@ -20,7 +20,7 @@ class Person
 
   public:
 
-    Person(const Shop & shop1, const Shop & shop2, const Shop & shop3
+    Person(Shop * shop1, Shop * shop2, Shop * shop3
          , const person_id_t person_id)
     : _shop1(shop1)
     , _shop2(shop2)
@@ -42,6 +42,12 @@ class Person
     {
       return !(*this == rhs);
     }
+
+    person_id_t get_id()
+    {
+      return _person_id;
+    }
+
   private:
 
     void run()
@@ -52,9 +58,9 @@ class Person
 
   private:
 
-    Shop _shop1;
-    Shop _shop2;
-    Shop _shop3;
+    Shop * _shop1;
+    Shop * _shop2;
+    Shop * _shop3;
     person_id_t                             _person_id;
     std::unordered_map<article_name_t, int> _needs;
 };

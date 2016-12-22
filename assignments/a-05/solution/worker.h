@@ -1,9 +1,6 @@
 #ifndef CPPPC__A05__WORKER_H
 #define CPPPC__A05__WORKER_H
 
-#include "section.h"
-#include "person.h"
-
 #include <numeric>
 #include <string>
 #include <unordered_map>
@@ -12,6 +9,9 @@
 
 namespace cpppc
 {
+
+class Section;
+class Person;
 
 class Worker
 {
@@ -22,7 +22,7 @@ class Worker
 
     Worker(std::string name
          , article_name_t article_name
-         , Section & my_section)
+         , Section * my_section)
     : _name(name)
     , _article_name(article_name)
     , _my_section(my_section)
@@ -30,18 +30,16 @@ class Worker
 
     void kick_person(const Person & person)
     {
-      _que.remove(person);
+      _que.remove(person.get_id());
+      // TODO notify person
     }
 
     void enque_person(const Person & person)
     {
       _que.push_back(person);  // FIFO
 //      _que.push_front(person); // LIFO
+//    // TODO notify person
     }
-
-
-    Worker(const self_t & other) = default;
-    self_t & operator=(const self_t & other) = default;
 
     const article_name_t supported_article() const
     {
@@ -52,7 +50,7 @@ class Worker
     std::string                               _name;
     std::list<Person>                         _que;
     article_name_t                            _article_name;
-    Section &                                 _my_section;
+    Section *                                 _my_section;
 };
 
 } // namespace cpppc

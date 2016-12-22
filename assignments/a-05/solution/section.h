@@ -1,9 +1,6 @@
 #ifndef CPPPC__A05__SECTION_H
 #define CPPPC__A05__SECTION_H
 
-#include "worker.h"
-#include "person.h"
-
 #include <mutex>
 #include <set>
 #include <numeric>
@@ -16,11 +13,13 @@
 namespace cpppc
 {
 
+class Person;
+class Worker;
+
 class Section
 {
   typedef int         person_id_t;
   typedef std::string article_name_t;
-  typedef Section     self_t;
 
   public:
 
@@ -31,7 +30,7 @@ class Section
     {
       _workers.reserve(_section_goods.size());
       std::transform(_section_goods.begin(), _section_goods.end()
-                   , _workers.begin(), [&](const std::pair<article_name_t, int> & e)
+                   , _workers.begin(), [this](const std::pair<article_name_t, int> & e)
                    {
                       return Worker(e.first + " worker", e.first, this);
                    });
@@ -39,14 +38,14 @@ class Section
 
     void enque(Person & person)
     {
-      _section_register.insert(person.person_id);
+      _section_register.insert(person.get_id());
     }
 
     // please do not call this one for another person :x
     void kick(Person & person)
     {
       // mutex
-      _section_register.erase(person.person_id);
+      _section_register.erase(person.get_id());
     }
 
   private:
@@ -56,8 +55,6 @@ class Section
     std::vector<Worker>                      _workers;
 };
 
-
 } // namespace cpppc
 
-
-#endif 
+#endif

@@ -1,8 +1,6 @@
 #ifndef CPPPC__A05__SHOP_H
 #define CPPPC__A05__SHOP_H
 
-#include "section.h"
-
 #include <numeric>
 #include <string>
 #include <unordered_map>
@@ -11,6 +9,8 @@
 
 namespace cpppc
 {
+
+class Section;
 
 class Shop
 {
