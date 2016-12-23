@@ -26,7 +26,7 @@ class Shop
     : _name(name)
     , _goods(goods)
     {
-      _sections = distribute_goods(section_count);
+      distribute_goods(section_count);
     }
 
     void enter(Person * person);
@@ -35,10 +35,21 @@ class Shop
 
   private:
 
-    std::vector<Section> distribute_goods(int section_count)
+    void distribute_goods(int section_count)
     {
-      // TODO
-      return std::vector<Section>();
+      _sections.reserve(section_count);
+      std::transform(_sections.begin(), _sections.end(), _sections.begin()
+                   ,[this, &section_count](Section & s){
+                     std::unordered_map<article_name_t, int> section_goods;
+                     section_goods.reserve(_goods.size());
+                     std::transform(_goods.begin(), _goods.end(), section_goods.begin()
+                                  ,[section_count](std::pair<article_name_t, int> & e)
+                                  {
+                                    e.second /= section_count;
+                                    return e;
+                                  });
+                     return section_goods;
+                     });
     }
 
 
@@ -53,4 +64,4 @@ class Shop
 } // namespace cpppc
 
 
-#endif 
+#endif

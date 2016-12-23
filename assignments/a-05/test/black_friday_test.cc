@@ -19,11 +19,39 @@
 TEST_F(BlackFridayTest, HordeTest)
 {
   LOG_MESSAGE("BlackFridayTest.RandomAccessIterators");
-  std::cout << "Test done!" << std::endl;
+
+  std::unordered_map<std::string, int> walmart_goods = {
+     {"Couch",         100}
+   , {"FlatscreenTV",  100}
+   , {"Hammock",       100}
+   , {"CoffeeMachine", 100}
+   , {"Ammunition",    100}
+  };
+
+  std::unordered_map<std::string, int> kmart_goods = {
+     {"Diesel",      100}
+   , {"Fertilizer",  100}
+   , {"Bleach",      100}
+   , {"RubberGlove", 100}
+   , {"Soap",        100}
+  };
+
+  std::unordered_map<std::string, int> toys_r_us_goods = {
+     {"Pikachu",         100}
+   , {"DoraTheExplorer", 100}
+   , {"TrumpActionToy",  100}
+   , {"Firetruck",       100}
+   , {"TickleMeElmo",    100}
+  };
+
+  cpppc::Shop walmart   = cpppc::Shop("Walmart", walmart_goods, 5);
+  cpppc::Shop kmart     = cpppc::Shop("Kmart", kmart_goods, 5);
+  cpppc::Shop toys_r_us = cpppc::Shop("ToysRUs", toys_r_us_goods, 5);
+
 }
 
 
-/* 
+/*
 enum WalmartProduct : int {
   Couch,
   FlatscreenTV,

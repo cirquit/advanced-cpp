@@ -22,6 +22,4 @@ void Person::enter_store(const Shop * shop)
   _cur_shop.second = true;
 }
 
-// void Person::
-
 } // cpppc
