@@ -35,6 +35,24 @@ class Shop
   private:
 
     std::vector<Section>  distribute_goods(int section_count);
+    void distribute_goods(int section_count)
+    {
+      _sections.reserve(section_count);
+      std::transform(_sections.begin(), _sections.end(), _sections.begin()
+                   ,[this, section_count](Section & s){
+
+                     std::unordered_map<article_name_t, int> section_goods;
+                     section_goods.reserve(_goods.size());
+
+//                     std::transform(_goods.begin(), _goods.end(), section_goods.begin()
+//                                  ,[](std::pair<const std::string, int> e)
+//                                  {
+//                                 //   e.second /= section_count;
+//                                    return e;
+//                                  });
+                     return section_goods;
+                     });
+    }
 
   private:
 
