@@ -15,8 +15,8 @@ class Section;
 
 class Shop
 {
-  typedef int         person_id_t;
-  typedef std::string article_name_t;
+  typedef int               person_id_t;
+  using article_name_t = const std::string;
 
   public:
 
@@ -39,15 +39,17 @@ class Shop
     {
       _sections.reserve(section_count);
       std::transform(_sections.begin(), _sections.end(), _sections.begin()
-                   ,[this, &section_count](Section & s){
+                   ,[this, section_count](Section & s){
+
                      std::unordered_map<article_name_t, int> section_goods;
                      section_goods.reserve(_goods.size());
-                     std::transform(_goods.begin(), _goods.end(), section_goods.begin()
-                                  ,[section_count](std::pair<article_name_t, int> & e)
-                                  {
-                                    e.second /= section_count;
-                                    return e;
-                                  });
+
+//                     std::transform(_goods.begin(), _goods.end(), section_goods.begin()
+//                                  ,[](std::pair<const std::string, int> e)
+//                                  {
+//                                 //   e.second /= section_count;
+//                                    return e;
+//                                  });
                      return section_goods;
                      });
     }
