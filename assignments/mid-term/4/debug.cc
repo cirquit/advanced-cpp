@@ -1,27 +1,27 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 #include <numeric>
+#include <list>
 
-
-template <typename Vector, typename UnaryPred>
-Vector & drop(Vector & v, UnaryPred condition) {
-  for (auto i = v.begin(); i != v.end(); ++i) {
+template <typename List, typename UnaryPred>
+List & drop(List & l, UnaryPred condition) {
+  for (auto i = l.begin(); i != l.end(); ++i) {
     if (condition(*i)) {
-      v.erase(i);
+      l.erase((i++));
     }
   }
+  return l;
 }
 
 int main() {
 
-  std::vector<int> v;
+  std::list<int> l;
 
   std::generate_n(
-    std::back_inserter(v), 100,
+    std::back_inserter(l), 10,
     []() { return std::rand() % 1024; });
 
-  auto & vd = drop(v, [](int x) -> bool {
+  auto & ld = drop(l, [](int x) -> bool {
                         return x % 3 == 0;
                       });
 

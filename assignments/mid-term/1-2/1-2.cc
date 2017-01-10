@@ -17,7 +17,7 @@ public:
     return !(*this == other);
   }
 
-  constexpr int value() const {
+  int value() const {
     return _value;
   }
 
