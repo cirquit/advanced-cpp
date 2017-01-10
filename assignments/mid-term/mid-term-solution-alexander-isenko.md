@@ -325,7 +325,11 @@ Value next_value_or_default(Iterator it, Iterator end, Value default) {
 
 ###### 3.2 Container Wrapper
 
+> The STL’s `std::vector` guarantess that its elements are stored in a contiguous memory region and is therefore compatible to C-style arrays. The member function .data() returns a pointer to the vector’s underlying raw memory.
+>
+> For many hardware-tuning techniques, data is accessed in chunks. Assuming a std::vector<uint32_t>` and 64 bytes per cache line, for example, vector elements could be loaded in chunks of 64/(32/8) = 16 elements.
 
+> Write a container wrapper `cpppc::chunks<B, T, Container>` that provides a sequential container interface on elements in Container in chunks of maximum size B bytes.
 
 
 

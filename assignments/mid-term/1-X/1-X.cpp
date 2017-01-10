@@ -62,7 +62,7 @@ int main()
                                      , SilverFrequentFlyer ("Lucius Doe", 94565432, 100, 5)
                                      , GoldFrequentFlyer("Rufus Doe", 32155994, 100, 100) };
 
-    for_each(f.begin()
+ 	for_each(f.begin()
            , f.end()
            , [](BaseFrequentFlyer & flyer)
            {
