@@ -27,7 +27,10 @@ public:
 	: _chunks(chunks)
 	, _pos(pos) { }
 
-	inline const element_t & 
+	inline const element_t & operator*() const
+	{
+		return 
+	}
 private:
 	ChunksT & 	    _chunks;
 	difference_type _pos = 0;
