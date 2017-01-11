@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <array>
+#include <cstdlib>
 
 namespace cpppc {
 
@@ -12,27 +13,46 @@ template <class ChunksT>
 class chunks_iterator
 {
 public:
-  using self_t    = chunks_iterator<ChunksT>;
-  using element_t = typename ChunksT::container_t;
+  using self_t     = chunks_iterator<ChunksT>;
+  using element_t  = typename ChunksT::value_t;
+  using chunk_t    = typename ChunksT::chunk_t;
 
   using iterator_category = std::random_access_iterator_tag;
-  using difference_type   = typename ChunksT::container_difference_type;
+  using difference_type   = typename ChunksT::difference_type;
   using value_type        = element_t;
   using pointer           = element_t *;
   using reference         = element_t &;
 
 public:
   chunks_iterator() = delete;
-  chunks_iterator(ChunksT & chunks, difference_type pos)
+  chunks_iterator(ChunksT & chunks, difference_type pos, difference_type max_bounds)
   : _chunks(chunks)
-  , _pos(pos) { }
+  , _pos(pos)
+  , _max_bounds(max_bounds) { }
 
   inline const element_t & operator*() const
   {
-    auto it = _chunks.begin();
-    std::advance(it, _pos);
+    std::ldiv_t ds = get_current_chunk_info();
+    auto it = _chunks[ds.quot].begin();
+    std::advance(it, ds.rem);
     return *it;
   }
+
+  // evil hacks - need to think of a better way
+  // auto begin() const {
+  //   std::ldiv_t ds = get_current_chunk_info()
+  //   return _chunks[ds.quot].begin();
+  // }
+
+  // auto end() const {
+  //   std::ldiv_t ds = get_current_chunk_info()
+  //   return _chunks[ds.quot].end();
+  // }  
+
+  // auto operator[](int offset) const {
+  //   std::ldiv_t ds = std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
+  //   return _chunks[ds.quot][offset];
+  // }
 
   // blatantly copied from the solution in a-03
   inline self_t & operator++() {
@@ -87,10 +107,36 @@ public:
     return *(*this + offset);
   }
 
+// Comparison
+  inline bool operator==(const self_t &other) const {
+    return (&_chunks == &(other._chunks) && _pos == other._pos);
+  }
+  inline bool operator!=(const self_t &other) const {
+    return !(&_chunks == &(other._chunks) && _pos == other._pos);
+  }
+  inline bool operator<=(const self_t &other) const {
+    return _pos <= other._pos;
+  }
+  inline bool operator<(const self_t &other) const {
+    return _pos < other._pos;
+  }
+  inline bool operator>=(const self_t &other) const {
+    return _pos >= other._pos;
+  }
+  inline bool operator>(const self_t &other) const {
+    return _pos > other._pos;
+  }
+
+private:
+  std::ldiv_t get_current_chunk_info()
+  {
+    return std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
+  }
 
 private:
   ChunksT &       _chunks;
   difference_type _pos = 0;
+  difference_type _max_bounds = 0;
 };
 
 }; // namespace detail
@@ -100,21 +146,21 @@ class chunks
 {
 
 public:
-  using self_t              = chunks<B, T, Container>;
+  using self_t          = chunks<B, T, Container>;
 
-  using container_t         = Container;
-  using container_ref       = Container &;
-  using container_const_ref = const Container &;
-  using container_index_t   = size_t;
+  using chunk_t         = std::array<T,B>;
+  using chunk_ref       = chunk_t &;
+  using chunk_const_ref = const chunk_t &;
+  using chunk_index_t   = size_t;
 
-  using index_t           = size_t;
-  using value_t           = T;
-  using reference         = T &;
-  using const_reference   = const T &;
+  using index_t         = size_t;
+  using value_t         = T;
+  using reference       = T &;
+  using const_reference = const T &;
 
 public:
-  using iterator                  = detail::chunks_iterator<self_t>;
-  using container_difference_type = container_index_t;
+  using iterator        = detail::chunks_iterator<self_t>;
+  using difference_type = index_t;
 
   friend iterator;
 
@@ -128,7 +174,7 @@ public:
 
                     if (_chunks.empty() ||  i >= B)
                     { 
-                      _chunks.push_back(std::array<T, B> { item });
+                      _chunks.push_back(std::array<T, B> {{ item }});
                       std::cout << "Created new vector with: " << item << '\n';
                       i = 1;
                     } else
@@ -139,18 +185,21 @@ public:
                     }
                   });
 
-    _end = iterator(*this, _chunks.size());
+    _end = iterator(*this, container.size(), B);
   }
 
   iterator begin() { return _begin; }
   iterator end()   { return _end;   }
 
+  inline chunk_t operator[](int offset) const {
+    return _chunks[offset];
+  }
 
 private:
   std::vector<std::array<T,B>> _chunks;
 
-  iterator _begin = iterator(*this, 0);
-  iterator _end   = iterator(*this, 0);
+  iterator _begin = iterator(*this, 0, B);
+  iterator _end   = iterator(*this, 0, B);
 };
 
 

@@ -4,11 +4,12 @@
 #include <mutex>
 #include <chrono>
 #include <queue>
+#include <atomic>
 
 using namespace std;
 
 int main() {
-    int c = 0;
+    std::atomic<int> c(0);
     bool done = false;
     queue<int> goods;
 

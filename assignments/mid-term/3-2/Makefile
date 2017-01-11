@@ -1,5 +1,5 @@
-CXX=g++
-CFLAGS=--std=c++11 -Wall -pthread -O0 -g
+CXX=clang++
+CFLAGS=--std=c++14 -Wall -pthread -O0 -g
 SRCS=$(wildcard *.cc)
 OBJS=$(SRCS:.cpp=.o)
 

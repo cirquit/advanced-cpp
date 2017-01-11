@@ -13,9 +13,7 @@ void print_walk(RandomAccess begin, RandomAccess end, std::random_access_iterato
 {
   std::random_shuffle(begin,end);
   std::cout << "RandomAccess Iterator:  ";
-  for(auto it = begin; it != end; ++it){
-      std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename RandomAccess::value_type>(std::cout, " "));
   std::cout << '\n';
 
 }
@@ -25,10 +23,7 @@ void print_walk(BiDirectional begin, BiDirectional end, std::bidirectional_itera
 {
   std::reverse(begin, end);
   std::cout << "BiDirectional Iterator: ";
-  for(auto it = begin; it != end; ++it)
-  {
-    std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename BiDirectional::value_type>(std::cout, " "));
   std::cout << '\n';
 }
 
@@ -36,10 +31,7 @@ template <class Input>
 void print_walk(Input begin, Input end, std::input_iterator_tag)
 {
   std::cout << "Input Iterator:         ";
-  for(auto it = begin; it != end; ++it)
-  {
-    std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename Input::value_type>(std::cout, " "));
   std::cout << '\n';
 }
 

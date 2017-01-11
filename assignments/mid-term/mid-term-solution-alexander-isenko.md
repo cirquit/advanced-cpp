@@ -84,7 +84,7 @@ I would enforce to use a constructor with the argument `today`.
 **Answer:**
 
 We could remove the explicit copy constructor (see Rule of Zero).
-If we would want that everything compiles, we have to create a constructor and an `operator!=`:
+If we would want that everything compiles, we have to create a constructor and an `operator!=`:  [Code](1-2/1-2.cc)
 
 ```c++
 class SemanticSurprise {
@@ -126,13 +126,13 @@ private:
 
 **Answer:**
 
-The problem is the `const` identifier in the argument of `print_surprise`. We call `value()` in this function and the compiler can't be sure that this doesn't modify the object. We have to append the `const` keyword to signal the compiler that the use of this function does not change the object in any way. And `constexpr` for future optimizations too.
+The problem is the `const` identifier in the argument of `print_surprise`. We call `value()` in this function and the compiler can't be sure that this doesn't modify the object. We have to append the `const` keyword to signal the compiler that the use of this function does not change the object in any way. [Code](1-2/1-2.cc)
 
 ```c++
 class SemanticSurprise {
 public:
 ...
-  constexpr int value() const {
+  int value() const {
     return _value;
   }
 ...
@@ -199,7 +199,7 @@ This technique/iodom is called **RAII** (*Resource acquisition is initialization
 
 **Answer**
 
-This would be my implementation:
+This would be my implementation: [Code](1-X/1-X.cc)
 
 
 ```c++
@@ -302,14 +302,14 @@ int main()
 > Q: Which containers? Briefly explain why the algorithm does not work for these and how it has to be changed.
 
 **Answer**:
-We need at least a RandomAccessIterator, because we make use of `it+1` and `it[1]`. Does not compile for
-* istream
-* ostream
-* inserter
-* forward_list
-* unordered_map
-* unordered_set
-* list
+We need at least a `RandomAccessIterator`, because we make use of `it+1` and `it[1]`. Does not compile for
+* `istream`
+* `ostream`
+* `inserter`
+* `forward_list`
+* `unordered_map`
+* `unordered_set`
+* `list`
 
 The code should be changed to:
 ```c++
@@ -380,7 +380,7 @@ Here is the `gdb` output.
 
 ![gdb output](4/gdb-output.png "GDB Output")
 
-The easy fix is to post-increment the iterator:
+The easy fix is to post-increment the iterator: [Code](4/debug.cc)
 
 ```c++
 template <typename Vector, typename UnaryPred>
@@ -403,7 +403,7 @@ Vector & drop(Vector & v, UnaryPred condition) {
 > Q: Prints the base 10 logarithm of the value if it is an integer and
      prints the base 10 logarithm of the value’s square root if it is a floating point value
 
-**Answer**:
+**Answer**: [Code](5-1/log10/log10.cc)
 
 ```c++
 #include <iostream>
@@ -446,7 +446,7 @@ double: 0.5
 > * for input iterators, elements are printed in order from begin to end-1
 > * for bidirectional iterators, elements are printed in reverse order from end-1 to begin
 
-**Answer**:
+**Answer**: [Code](5-1/print-walk/print-walk.cc)
 
 ```c++
 #include <iostream>
@@ -464,9 +464,7 @@ void print_walk(RandomAccess begin, RandomAccess end, std::random_access_iterato
 {
   std::random_shuffle(begin,end);
   std::cout << "RandomAccess Iterator:  ";
-  for(auto it = begin; it != end; ++it){
-      std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename RandomAccess::value_type>(std::cout, " "));
   std::cout << '\n';
 
 }
@@ -476,10 +474,7 @@ void print_walk(BiDirectional begin, BiDirectional end, std::bidirectional_itera
 {
   std::reverse(begin, end);
   std::cout << "BiDirectional Iterator: ";
-  for(auto it = begin; it != end; ++it)
-  {
-    std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename BiDirectional::value_type>(std::cout, " "));
   std::cout << '\n';
 }
 
@@ -487,10 +482,7 @@ template <class Input>
 void print_walk(Input begin, Input end, std::input_iterator_tag)
 {
   std::cout << "Input Iterator:         ";
-  for(auto it = begin; it != end; ++it)
-  {
-    std::cout << *it << " ";
-  }
+  std::copy(begin, end, std::ostream_iterator<typename Input::value_type>(std::cout, " "));
   std::cout << '\n';
 }
 
@@ -579,4 +571,48 @@ IStreamIterator is an Input Iterator:         0 1 2 3 4 5 6 7 8 9
 >
 >We are letting c++ and c– be surrogates for this mutual exclusion, since we can easily check if we correctly end up with 0 in the end.
 >
->Run the code as it is, and you will see that the net value is way off:
+>Run the code as it is *(with -pthread flag)*, and you will see that the net value is way off:
+
+```c++
+#include <iostream>
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+#include <chrono>
+#include <queue>
+
+using namespace std;
+
+int main() {
+    int c = 0;
+    bool done = false;
+    queue<int> goods;
+
+    thread producer([&]() {
+        for (int i = 0; i < 500; ++i) {
+            goods.push(i);
+            c++;
+        }
+
+        done = true;
+    });
+
+    thread consumer([&]() {
+        while (!done) {
+            while (!goods.empty()) {
+                goods.pop();
+                c--;
+            }
+        }
+    });
+
+    producer.join();
+    consumer.join();
+    cout << "Net: " << c << endl;
+}
+```
+
+> Q: (There was no question, but if we would have to fix the implementation)
+
+**Answer**: Simply replace `int c = 0;` with `std::atomic<int> c(0);` and add the header `#include <atomic>`. This ensures that the counter will be updated thread-safe and lock-free.
+[Code](7-2/consumer-producer.cc)
