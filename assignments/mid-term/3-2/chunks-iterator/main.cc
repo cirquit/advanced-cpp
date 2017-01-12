@@ -25,11 +25,14 @@ int main()
   // Iterate chunks:
   auto first_chunk = v_chunks.begin();
 
+  std::cout << "Iterating through with custom for: ";
   for(auto it = first_chunk; it != v_chunks.end(); ++it)
   {
-      std::cout << *it << '\n';
+      std::cout << *it << ' ';
   }
+  std::cout << '\n';
 
+//  std::cout << "Itertating through with a for_each";
 //  for_each(v_chunks.begin(), v_chunks.end(), [](uint16_t & i){
 //      std::cout << i << '\n';
 //  });
@@ -37,7 +40,7 @@ int main()
 
   auto chunk_size  = std::distance(v_chunks.begin(), v_chunks.end());
                      // --> 128/(16/8) = 64
-  std::cout << "Current chunks: " << chunk_size << '\n';
+  std::cout << "Chunks size: " << chunk_size << '\n';
 
   // Iterators on elements in a chunk:
 //  uint16_t first_chunk_elem = *first_chunk.begin();

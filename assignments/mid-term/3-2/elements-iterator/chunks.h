@@ -30,29 +30,13 @@ public:
   , _pos(pos)
   , _max_bounds(max_bounds) { }
 
-  inline const element_t & operator*() const
+  inline element_t & operator*()
   {
-    std::ldiv_t ds = get_current_chunk_info();
+    const std::ldiv_t ds = get_current_chunk_info();
     auto it = _chunks[ds.quot].begin();
     std::advance(it, ds.rem);
     return *it;
   }
-
-  // evil hacks - need to think of a better way
-  // auto begin() const {
-  //   std::ldiv_t ds = get_current_chunk_info()
-  //   return _chunks[ds.quot].begin();
-  // }
-
-  // auto end() const {
-  //   std::ldiv_t ds = get_current_chunk_info()
-  //   return _chunks[ds.quot].end();
-  // }  
-
-  // auto operator[](int offset) const {
-  //   std::ldiv_t ds = std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
-  //   return _chunks[ds.quot][offset];
-  // }
 
   // blatantly copied from the solution in a-03
   inline self_t & operator++() {
@@ -128,7 +112,7 @@ public:
   }
 
 private:
-  std::ldiv_t get_current_chunk_info()
+  const std::ldiv_t get_current_chunk_info() const
   {
     return std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
   }
