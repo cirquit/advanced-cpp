@@ -9,13 +9,20 @@ namespace cpppc {
 
 namespace detail {
 
+template <class ChunksChunksT>
+class chunks_chunks_iterator
+{
+  public 
+}
+
+
 template <class ChunksT>
 class chunks_iterator
 {
 public:
-  using self_t     = chunks_iterator<ChunksT>;
-  using element_t  = typename ChunksT::value_t;
-  using chunk_t    = typename ChunksT::chunk_t;
+  using self_t          = chunks_iterator<ChunksT>;
+  using element_t       = typename ChunksT::chunk_t;
+  using inner_element_t = typename ChunksT::value_t;
 
   using iterator_category = std::random_access_iterator_tag;
   using difference_type   = typename ChunksT::difference_type;
@@ -23,19 +30,23 @@ public:
   using pointer           = element_t *;
   using reference         = element_t &;
 
+  using iterator          = typename ChunksT::chunk_t::iterator;
+  using 
+
 public:
   chunks_iterator() = delete;
-  chunks_iterator(ChunksT & chunks, difference_type pos, difference_type max_bounds)
+  chunks_iterator(ChunksT & chunks, difference_type pos)
   : _chunks(chunks)
-  , _pos(pos)
-  , _max_bounds(max_bounds) { }
+  , _pos(pos) { }
 
+public:
+
+
+public:
   inline element_t & operator*()
   {
-    const std::ldiv_t ds = get_current_chunk_info();
-    auto it = _chunks[ds.quot].begin();
-    std::advance(it, ds.rem);
-    return *it;
+    element_t & chunk = _chunks._chunks[_pos];
+    return chunk;
   }
 
   // blatantly copied from the solution in a-03
@@ -111,16 +122,16 @@ public:
     return _pos > other._pos;
   }
 
-private:
-  const std::ldiv_t get_current_chunk_info() const
-  {
-    return std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
-  }
+//private:
+//  const std::ldiv_t get_current_chunk_info() const
+//  {
+//    return std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
+//  }
 
 private:
   ChunksT &       _chunks;
   difference_type _pos = 0;
-  difference_type _max_bounds = 0;
+//  difference_type _max_bounds = 0;
 };
 
 }; // namespace detail
@@ -137,10 +148,10 @@ public:
   using chunk_const_ref = const chunk_t &;
   using chunk_index_t   = size_t;
 
+  using value_t         = T;
+  using reference       = T &;
+  using const_reference = const T &;
   using index_t         = size_t;
-  using value_t         = chunk_t;
-  using reference       = chunk_t &;
-  using const_reference = const chunk_t &;
 
 public:
   using iterator        = detail::chunks_iterator<self_t>;
@@ -175,10 +186,9 @@ public:
   iterator begin() { return _begin; }
   iterator end()   { return _end;   }
 
-  /*
   inline chunk_t operator[](int offset) const {
     return _chunks[offset];
-  }*/
+  }
 
 private:
   std::vector<std::array<T,B>> _chunks;

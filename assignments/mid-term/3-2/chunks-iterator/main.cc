@@ -28,7 +28,10 @@ int main()
   std::cout << "Iterating through with custom for: ";
   for(auto it = first_chunk; it != v_chunks.end(); ++it)
   {
-      std::cout << *it << ' ';
+      for (auto iit = (*it).begin(); iit != (*it).end(); ++iit)
+      {
+        std::cout << *iit << ' '; 
+      }
   }
   std::cout << '\n';
 
@@ -43,8 +46,10 @@ int main()
   std::cout << "Chunks size: " << chunk_size << '\n';
 
   // Iterators on elements in a chunk:
-//  uint16_t first_chunk_elem = *first_chunk.begin();
-//  uint16_t third_chunk_elem = first_chunk[2];
+  auto first_chunk_elem = (*first_chunk).begin();
+  std::cout << "First element: " << first_chunk_elem << '\n';
+
+  uint16_t third_chunk_elem = first_chunk[2];
 //  
 //  // Pointer to data in second chunk:
 //  uint16_t chunk_1_data = v_chunks[1].data();
