@@ -331,8 +331,282 @@ Value next_value_or_default(Iterator it, Iterator end, Value default) {
 
 > Write a container wrapper `cpppc::chunks<B, T, Container>` that provides a sequential container interface on elements in Container in chunks of maximum size B bytes.
 
+**Answer**:
 
-** TODO - get the code working not only for chunks **
+I interpreted the question in two different ways, one was a "cached vector", which feels like a vector, but stores the data in fixed sized arrays to caching can take place [chunks.h](3-2/elements-iterator/chunks.h) and [main.cc](3-2/elements-iterator/main.cc). The solution which works for the predefined code (which had to be adjusted a little) is found here [chunks.h](3-2/chunks-iterator/chunks.h) and [main.cc](3-2/chunks-iterator/main.cc).
+
+This is the second solution:
+```c++
+
+#ifndef CPPPC__CHUNKS_H__INCLUDED
+#define CPPPC__CHUNKS_H__INCLUDED
+
+#include <vector>
+#include <array>
+#include <cstdlib>
+
+namespace cpppc {
+
+namespace detail {
+
+template <class ContainerT>
+class delegate_iterator
+{
+public:
+  
+  using self_t          = delegate_iterator<ContainerT>;
+  using element_t       = typename ContainerT::value_type;
+
+  using iterator_category = std::random_access_iterator_tag;
+  using difference_type   = typename ContainerT::difference_type;
+  using value_type        = element_t;
+  using pointer           = element_t *;
+  using reference         = element_t &;
+
+public:
+   delegate_iterator() = delete;
+   delegate_iterator(ContainerT & container)
+   : _container(container)
+   , _pos(0) // a chunk.begin() starts always at the first position,
+             // even if it was already traversed a bit in the previous iterator
+   { }
+
+public:
+
+  inline element_t & operator*()
+  {
+    return _container[_pos];
+  }
+
+// ... generic iterator stuff, like ++, ==, etc.
+
+private:
+  ContainerT &    _container;
+  difference_type _pos;
+};
+
+
+template <class ChunksT>
+class chunks_iterator
+{
+public:
+  using self_t          = chunks_iterator<ChunksT>;
+  using element_t       = typename ChunksT::chunk_t;
+
+  using iterator_category = std::random_access_iterator_tag;
+  using difference_type   = typename ChunksT::difference_type;
+  using value_type        = element_t;
+  using pointer           = element_t *;
+  using reference         = element_t &;
+
+public:
+  using iterator           = delegate_iterator<element_t>;
+  using inner_element_t    = typename ChunksT::value_t;
+  using inner_difference_t = typename ChunksT::index_t;
+
+  friend iterator;
+
+public:
+  chunks_iterator() = delete;
+  chunks_iterator(ChunksT & chunks, difference_type pos)
+  : _chunks(chunks)
+  , _pos(pos) { }
+
+
+public:
+  inline element_t & operator*()
+  {
+    element_t & chunk = _chunks._chunks[_pos];
+    return chunk;
+  }
+
+// ... generic iterator stuff, like ++, ==, etc.
+
+  iterator begin() const {
+    return iterator(_chunks._chunks[_pos]);
+  }
+
+  iterator end() const {
+    return iterator(_chunks._chunks[_pos]);
+  }
+
+  inline inner_element_t operator[](int offset) const {
+    return *(begin() + offset);
+  }
+
+private:
+//  this can be used to calculate the offsetted beginning of the chunks, if needed
+//  const std::ldiv_t get_current_chunk_info() const
+//  {
+//    return std::div(static_cast<long>(_pos), static_cast<long>(_max_bounds));
+//  }
+
+private:
+  ChunksT &       _chunks;
+  difference_type _pos = 0;
+};
+
+}; // namespace detail
+
+template <std::size_t B, class T, class Container>
+class chunks
+{
+
+public:
+  using self_t          = chunks<B, T, Container>;
+
+  using chunk_t         = std::array<T,B>;
+  using chunk_ref       = chunk_t &;
+  using chunk_const_ref = const chunk_t &;
+  using chunk_index_t   = size_t;
+
+  using value_t         = T;
+  using reference       = T &;
+  using const_reference = const T &;
+  using index_t         = size_t;
+
+public:
+  using iterator        = detail::chunks_iterator<self_t>;
+  using difference_type = chunk_index_t;
+
+  friend iterator;
+
+public:
+  chunks(Container container)
+  { 
+    int i = 0;
+    std::for_each(container.begin()
+                 ,container.end()
+                 ,[&](T & item){
+
+                    if (_chunks.empty() ||  i >= B)
+                    { 
+                      _chunks.push_back(std::array<T, B> {{ item }});
+                      std::cout << "Created new array with: " << item << '\n';
+                      i = 1;
+                    } else
+                    {
+                      _chunks.back()[i] = item;
+                      std::cout << "Appended to array: " << item << '\n';
+                      ++i;
+                    }
+                  });
+
+    _end = iterator(*this, _chunks.size());
+  }
+
+  iterator begin() { return _begin; }
+  iterator end()   { return _end;   }
+
+  inline chunk_t operator[](int offset) const {
+    return _chunks[offset];
+  }
+
+private:
+  std::vector<std::array<T,B>> _chunks;
+
+  iterator _begin = iterator(*this, 0);
+  iterator _end   = iterator(*this, 0);
+};
+
+} // namespace cppp
+
+#endif
+```
+
+`main.cc`
+```c++
+#include <vector>
+#include <iostream>
+#include <cstdint>
+#include <algorithm>
+#include "chunks.h"
+
+#include <vector>
+#include <iostream>
+ 
+int main()
+{
+  using chunked_container = typename cpppc::chunks<2, uint16_t, std::vector<uint16_t>>;
+
+  std::vector<uint16_t> v_us { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+  std::cout << "-- Creation: -- \n";
+  chunked_container v_chunks(v_us);
+
+  // Iterate chunks:
+  auto first_chunk = v_chunks.begin();
+
+  std::cout << "-- Iterating through with custom for: ";
+  for(auto it = first_chunk; it != v_chunks.end(); ++it)
+  {
+      for (auto iit = (*it).begin(); iit != (*it).end(); ++iit)
+      {
+        std::cout << *iit << ' '; 
+      }
+  }
+  std::cout << '\n';
+
+  std::cout << "-- Iterating through with generic for_each: ";
+  std::for_each(v_chunks.begin(), v_chunks.end(),
+    [](chunked_container::chunk_t chunk)
+    {
+      std::for_each(chunk.begin(), chunk.end(),
+        [](uint16_t v)
+        {
+          std::cout << v << ' ';
+        });
+
+      std::cout << "| ";
+    });
+  std::cout << '\n';
+
+  auto chunk_size  = std::distance(v_chunks.begin(), v_chunks.end());
+                     // --> 128/(16/8) = 64
+  std::cout << "-- Chunks size: " << chunk_size << '\n';
+
+  // Iterators on elements in a chunk:
+  auto first_chunk_elem = first_chunk.begin();
+  std::cout << "First element: " << *first_chunk_elem << '\n';
+
+  uint16_t third_chunk_elem = first_chunk[2];
+  std::cout << "Third element: " << third_chunk_elem << '\n';
+  
+  // Pointer to data in second chunk:
+  uint16_t *chunk_1_data = v_chunks[1].data();
+  std::cout << "Pointer to data in second chunk (should be the third element with chunksize 2): " << *chunk_1_data << '\n';
+
+  // Pointer to data in third chunk (= end pointer of data in second chunk):
+  uint16_t *chunk_2_data = v_chunks[2].data();
+  std::cout << "Pointer to data in third chunk (should be the fifth element with chunksize 2): " << *chunk_2_data << '\n';
+
+}
+```
+
+Output:
+```bash
+> make
+clang++ --std=c++11 -Wall -pthread -O0 -g main.cc
+./a.out
+-- Creation: --
+Created new array with: 1
+Appended to array: 2
+Created new array with: 3
+Appended to array: 4
+Created new array with: 5
+Appended to array: 6
+Created new array with: 7
+Appended to array: 8
+Created new array with: 9
+Appended to array: 10
+-- Iterating through with custom for: 1 2 3 4 5 6 7 8 9 10
+-- Iterating through with generic for_each: 1 2 | 3 4 | 5 6 | 7 8 | 9 10 |
+-- Chunks size: 5
+First element: 1
+Third element: 3
+Pointer to data in second chunk (should be the third element with chunksize 2): 3
+Pointer to data in third chunk (should be the fifth element with chunksize 2): 5
+```
 
 ### 4. Debugging
 

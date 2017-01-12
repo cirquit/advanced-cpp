@@ -724,11 +724,11 @@ pre {
 </style><title>mid-term-solution-alexander-isenko</title></head><body><article class="markdown-body"><h2>
 <a id="user-content-midterm-assignment---alexander-isenko" class="anchor" href="#midterm-assignment---alexander-isenko" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Midterm Assignment - Alexander Isenko</h2>
 
-<h5>
-<a id="user-content-1-types-classes-objects-and-their-state" class="anchor" href="#1-types-classes-objects-and-their-state" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Types, Classes, Objects and their State</h5>
+<h3>
+<a id="user-content-1-types-classes-objects-and-their-state" class="anchor" href="#1-types-classes-objects-and-their-state" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Types, Classes, Objects and their State</h3>
 
-<h6>
-<a id="user-content-11-object-definition" class="anchor" href="#11-object-definition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.1 Object Definition</h6>
+<h4>
+<a id="user-content-11-object-definition" class="anchor" href="#11-object-definition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.1 Object Definition</h4>
 
 <blockquote>
 <p>Assuming your are confronted with a class that supports the following use case:</p>
@@ -744,8 +744,8 @@ date_parser.set_date(today);
 <p><strong>Answer:</strong> The method <code>day_of_week</code> is not valid without the previous <code>set_date</code> call.
 I would enforce to use a constructor with the argument <code>today</code>.</p>
 
-<h6>
-<a id="user-content-12-standard-object-semantics" class="anchor" href="#12-standard-object-semantics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.2 Standard Object Semantics</h6>
+<h4>
+<a id="user-content-12-standard-object-semantics" class="anchor" href="#12-standard-object-semantics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.2 Standard Object Semantics</h4>
 
 <blockquote>
 <p>Given the following implementation of class <code>SemanticSurprise</code>:</p>
@@ -827,7 +827,7 @@ I would enforce to use a constructor with the argument <code>today</code>.</p>
 <p><strong>Answer:</strong></p>
 
 <p>We could remove the explicit copy constructor (see Rule of Zero).
-If we would want that everything compiles, we have to create a constructor and an <code>operator!=</code>:</p>
+If we would want that everything compiles, we have to create a constructor and an <code>operator!=</code>:  <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/1-2/1-2.cc">Code</a></p>
 
 <div class="highlight highlight-source-c++"><pre><span class="pl-k">class</span> <span class="pl-en">SemanticSurprise</span> {
 <span class="pl-k">public:</span>
@@ -869,18 +869,18 @@ If we would want that everything compiles, we have to create a constructor and a
 
 <p><strong>Answer:</strong></p>
 
-<p>The problem is the <code>const</code> identifier in the argument of <code>print_surprise</code>. We call <code>value()</code> in this function and the compiler can't be sure that this doesn't modify the object. We have to append the <code>const</code> keyword to signal the compiler that the use of this function does not change the object in any way. And <code>constexpr</code> for future optimizations too.</p>
+<p>The problem is the <code>const</code> identifier in the argument of <code>print_surprise</code>. We call <code>value()</code> in this function and the compiler can't be sure that this doesn't modify the object. We have to append the <code>const</code> keyword to signal the compiler that the use of this function does not change the object in any way. <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/1-2/1-2.cc">Code</a></p>
 
 <div class="highlight highlight-source-c++"><pre><span class="pl-k">class</span> <span class="pl-en">SemanticSurprise</span> {
 <span class="pl-k">public:</span>
 ...
-  <span class="pl-k">constexpr</span> <span class="pl-k">int</span> <span class="pl-en">value</span>() <span class="pl-k">const</span> {
+  <span class="pl-k">int</span> <span class="pl-en">value</span>() <span class="pl-k">const</span> {
     <span class="pl-k">return</span> _value;
   }
 ...</pre></div>
 
-<h6>
-<a id="user-content-13-resource-ownership" class="anchor" href="#13-resource-ownership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.3 Resource Ownership</h6>
+<h4>
+<a id="user-content-13-resource-ownership" class="anchor" href="#13-resource-ownership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.3 Resource Ownership</h4>
 
 <blockquote>
 <p>Consider the following use case:</p>
@@ -905,8 +905,8 @@ The Rule of Zero/Three/Five should be satisfied, because if an exception happens
 <p><strong>Answer:</strong>
 This technique/iodom is called <strong>RAII</strong> (<em>Resource acquisition is initialization</em>) and states that resource allocation happens in the initialization phase and the release of resources happens by the destructor. This means that if there are no object leaks, there aren't any resource leaks.</p>
 
-<h5>
-<a id="user-content-1x-bonus" class="anchor" href="#1x-bonus" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.X Bonus</h5>
+<h4>
+<a id="user-content-1x-bonus" class="anchor" href="#1x-bonus" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.X Bonus</h4>
 
 <blockquote>
 <p>Have a look at this example code from the lecture “CMSC 12300 - Computer Science with Applications 3” at University of Chicago:</p>
@@ -944,7 +944,7 @@ This technique/iodom is called <strong>RAII</strong> (<em>Resource acquisition i
 
 <p><strong>Answer</strong></p>
 
-<p>This would be my implementation:</p>
+<p>This would be my implementation: <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/1-X/1-X.cc">Code</a></p>
 
 <div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">//</span> some boilerplate to check validity</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
@@ -1027,14 +1027,14 @@ This technique/iodom is called <strong>RAII</strong> (<em>Resource acquisition i
 
 <p><strong>Answer</strong>: Never use <code>new</code> and <code>delete</code>. Follow the Rule of Zero/Three/Five.</p>
 
-<h5>
-<a id="user-content-2-container-types-class-template-basics" class="anchor" href="#2-container-types-class-template-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Container Types, Class Template Basics</h5>
+<h3>
+<a id="user-content-2-container-types-class-template-basics" class="anchor" href="#2-container-types-class-template-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Container Types, Class Template Basics</h3>
 
-<h5>
-<a id="user-content-3-iterators" class="anchor" href="#3-iterators" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Iterators</h5>
+<h3>
+<a id="user-content-3-iterators" class="anchor" href="#3-iterators" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Iterators</h3>
 
-<h6>
-<a id="user-content-31-algorithm-basics" class="anchor" href="#31-algorithm-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1 Algorithm Basics</h6>
+<h4>
+<a id="user-content-31-algorithm-basics" class="anchor" href="#31-algorithm-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1 Algorithm Basics</h4>
 
 <blockquote>
 <p>The following algorithm dereferences and returns a given iterator’s successor unless the successor’s referenced value matches some condition. The algorithm is semantically correct but does not compile for iterators of some containers.</p>
@@ -1049,16 +1049,16 @@ Value <span class="pl-en">next_value_or_default</span>(Iterator it, Iterator end
 </blockquote>
 
 <p><strong>Answer</strong>:
-We need at least a RandomAccessIterator, because we make use of <code>it+1</code> and <code>it[1]</code>. Does not compile for</p>
+We need at least a <code>RandomAccessIterator</code>, because we make use of <code>it+1</code> and <code>it[1]</code>. Does not compile for</p>
 
 <ul>
-<li>istream</li>
-<li>ostream</li>
-<li>inserter</li>
-<li>forward_list</li>
-<li>unordered_map</li>
-<li>unordered_set</li>
-<li>list</li>
+<li><code>istream</code></li>
+<li><code>ostream</code></li>
+<li><code>inserter</code></li>
+<li><code>forward_list</code></li>
+<li><code>unordered_map</code></li>
+<li><code>unordered_set</code></li>
+<li><code>list</code></li>
 </ul>
 
 <p>The code should be changed to:</p>
@@ -1072,21 +1072,293 @@ Value <span class="pl-en">next_value_or_default</span>(Iterator it, Iterator end
   <span class="pl-k">return</span> *it;
 }</pre></div>
 
-<h6>
-<a id="user-content-32-container-wrapper" class="anchor" href="#32-container-wrapper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2 Container Wrapper</h6>
+<h4>
+<a id="user-content-32-container-wrapper" class="anchor" href="#32-container-wrapper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2 Container Wrapper</h4>
 
 <blockquote>
 <p>The STL’s <code>std::vector</code> guarantess that its elements are stored in a contiguous memory region and is therefore compatible to C-style arrays. The member function .data() returns a pointer to the vector’s underlying raw memory.</p>
 
-<p>For many hardware-tuning techniques, data is accessed in chunks. Assuming a std::vector` and 64 bytes per cache line, for example, vector elements could be loaded in chunks of 64/(32/8) = 16 elements.</p>
+<p>For many hardware-tuning techniques, data is accessed in chunks. Assuming a <code>std::vector&lt;uint32_t&gt;</code> and 64 bytes per cache line, for example, vector elements could be loaded in chunks of 64/(32/8) = 16 elements.</p>
 
 <p>Write a container wrapper <code>cpppc::chunks&lt;B, T, Container&gt;</code> that provides a sequential container interface on elements in Container in chunks of maximum size B bytes.</p>
 </blockquote>
 
-<p>** TODO - get the code working not only for chunks **</p>
+<p><strong>Answer</strong>:</p>
 
-<h6>
-<a id="user-content-4-debugging" class="anchor" href="#4-debugging" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Debugging</h6>
+<p>I interpreted the question in two different ways, one was a "cached vector", which feels like a vector, but stores the data in fixed sized arrays to caching can take place <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/3-2/elements-iterator/chunks.h">chunks.h</a> and <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/3-2/elements-iterator/main.cc">main.cc</a>. The solution which works for the predefined code (which had to be adjusted a little) is found here <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/3-2/chunks-iterator/chunks.h">chunks.h</a> and <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/3-2/chunks-iterator/main.cc">main.cc</a>.</p>
+
+<p>This is the second solution:</p>
+
+<div class="highlight highlight-source-c++"><pre>
+#<span class="pl-k">ifndef</span> CPPPC__CHUNKS_H__INCLUDED
+#<span class="pl-k">define</span> <span class="pl-en">CPPPC__CHUNKS_H__INCLUDED</span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>array<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>cstdlib<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">namespace</span> <span class="pl-en">cpppc</span> {
+
+<span class="pl-k">namespace</span> <span class="pl-en">detail</span> {
+
+<span class="pl-k">template </span>&lt;<span class="pl-k">class</span> <span class="pl-en">ContainerT</span>&gt;
+<span class="pl-k">class</span> <span class="pl-en">delegate_iterator</span>
+{
+<span class="pl-k">public:</span>
+
+  <span class="pl-k">using</span> <span class="pl-c1">self_t</span>          = delegate_iterator&lt;ContainerT&gt;;
+  <span class="pl-k">using</span> <span class="pl-c1">element_t</span>       = <span class="pl-k">typename</span> ContainerT::value_type;
+
+  <span class="pl-k">using</span> iterator_category = std::random_access_iterator_tag;
+  <span class="pl-k">using</span> difference_type   = <span class="pl-k">typename</span> ContainerT::difference_type;
+  <span class="pl-k">using</span> value_type        = <span class="pl-c1">element_t</span>;
+  <span class="pl-k">using</span> pointer           = <span class="pl-c1">element_t</span> *;
+  <span class="pl-k">using</span> reference         = <span class="pl-c1">element_t</span> &amp;;
+
+<span class="pl-k">public:</span>
+   <span class="pl-en">delegate_iterator</span>() = <span class="pl-k">delete</span>;
+   <span class="pl-en">delegate_iterator</span>(ContainerT &amp; container)
+   : _container(container)
+   , _pos(<span class="pl-c1">0</span>) <span class="pl-c"><span class="pl-c">//</span> a chunk.begin() starts always at the first position,</span>
+             <span class="pl-c"><span class="pl-c">//</span> even if it was already traversed a bit in the previous iterator</span>
+   { }
+
+<span class="pl-k">public:</span>
+
+  <span class="pl-k">inline</span> <span class="pl-c1">element_t</span> &amp; <span class="pl-k">operator</span>*()
+  {
+    <span class="pl-k">return</span> _container[_pos];
+  }
+
+<span class="pl-c"><span class="pl-c">//</span> ... generic iterator stuff, like ++, ==, etc.</span>
+
+<span class="pl-k">private:</span>
+  ContainerT &amp;    _container;
+  difference_type _pos;
+};
+
+
+<span class="pl-k">template </span>&lt;<span class="pl-k">class</span> <span class="pl-en">ChunksT</span>&gt;
+<span class="pl-k">class</span> <span class="pl-en">chunks_iterator</span>
+{
+<span class="pl-k">public:</span>
+  <span class="pl-k">using</span> <span class="pl-c1">self_t</span>          = chunks_iterator&lt;ChunksT&gt;;
+  <span class="pl-k">using</span> <span class="pl-c1">element_t</span>       = <span class="pl-k">typename</span> ChunksT::<span class="pl-c1">chunk_t</span>;
+
+  <span class="pl-k">using</span> iterator_category = std::random_access_iterator_tag;
+  <span class="pl-k">using</span> difference_type   = <span class="pl-k">typename</span> ChunksT::difference_type;
+  <span class="pl-k">using</span> value_type        = <span class="pl-c1">element_t</span>;
+  <span class="pl-k">using</span> pointer           = <span class="pl-c1">element_t</span> *;
+  <span class="pl-k">using</span> reference         = <span class="pl-c1">element_t</span> &amp;;
+
+<span class="pl-k">public:</span>
+  <span class="pl-k">using</span> iterator           = delegate_iterator&lt;<span class="pl-c1">element_t</span>&gt;;
+  <span class="pl-k">using</span> <span class="pl-c1">inner_element_t</span>    = <span class="pl-k">typename</span> ChunksT::<span class="pl-c1">value_t</span>;
+  <span class="pl-k">using</span> <span class="pl-c1">inner_difference_t</span> = <span class="pl-k">typename</span> ChunksT::<span class="pl-c1">index_t</span>;
+
+  <span class="pl-k">friend</span> iterator;
+
+<span class="pl-k">public:</span>
+  <span class="pl-en">chunks_iterator</span>() = <span class="pl-k">delete</span>;
+  <span class="pl-en">chunks_iterator</span>(ChunksT &amp; chunks, difference_type pos)
+  : _chunks(chunks)
+  , _pos(pos) { }
+
+
+<span class="pl-k">public:</span>
+  <span class="pl-k">inline</span> <span class="pl-c1">element_t</span> &amp; <span class="pl-k">operator</span>*()
+  {
+    <span class="pl-c1">element_t</span> &amp; chunk = _chunks.<span class="pl-smi">_chunks</span>[_pos];
+    <span class="pl-k">return</span> chunk;
+  }
+
+<span class="pl-c"><span class="pl-c">//</span> ... generic iterator stuff, like ++, ==, etc.</span>
+
+  iterator <span class="pl-en">begin</span>() <span class="pl-k">const</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">iterator</span>(_chunks.<span class="pl-smi">_chunks</span>[_pos]);
+  }
+
+  iterator <span class="pl-en">end</span>() <span class="pl-k">const</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">iterator</span>(_chunks.<span class="pl-smi">_chunks</span>[_pos]);
+  }
+
+  <span class="pl-k">inline</span> <span class="pl-c1">inner_element_t</span> <span class="pl-k">operator</span>[](<span class="pl-k">int</span> offset) <span class="pl-k">const</span> {
+    <span class="pl-k">return</span> *(<span class="pl-c1">begin</span>() + offset);
+  }
+
+<span class="pl-k">private:</span>
+<span class="pl-c"><span class="pl-c">//</span>  this can be used to calculate the offsetted beginning of the chunks, if needed</span>
+<span class="pl-c"><span class="pl-c">//</span>  const std::ldiv_t get_current_chunk_info() const</span>
+<span class="pl-c"><span class="pl-c">//</span>  {</span>
+<span class="pl-c"><span class="pl-c">//</span>    return std::div(static_cast&lt;long&gt;(_pos), static_cast&lt;long&gt;(_max_bounds));</span>
+<span class="pl-c"><span class="pl-c">//</span>  }</span>
+
+<span class="pl-k">private:</span>
+  ChunksT &amp;       _chunks;
+  difference_type _pos = <span class="pl-c1">0</span>;
+};
+
+}; <span class="pl-c"><span class="pl-c">//</span> namespace detail</span>
+
+<span class="pl-k">template </span>&lt;std::<span class="pl-c1">size_t</span> B, <span class="pl-k">class</span> <span class="pl-en">T</span>, <span class="pl-k">class</span> <span class="pl-en">Container</span>&gt;
+<span class="pl-k">class</span> <span class="pl-en">chunks</span>
+{
+
+<span class="pl-k">public:</span>
+  <span class="pl-k">using</span> <span class="pl-c1">self_t</span>          = chunks&lt;B, T, Container&gt;;
+
+  <span class="pl-k">using</span> <span class="pl-c1">chunk_t</span>         = std::array&lt;T,B&gt;;
+  <span class="pl-k">using</span> chunk_ref       = <span class="pl-c1">chunk_t</span> &amp;;
+  <span class="pl-k">using</span> chunk_const_ref = <span class="pl-k">const</span> <span class="pl-c1">chunk_t</span> &amp;;
+  <span class="pl-k">using</span> <span class="pl-c1">chunk_index_t</span>   = <span class="pl-c1">size_t</span>;
+
+  <span class="pl-k">using</span> <span class="pl-c1">value_t</span>         = T;
+  <span class="pl-k">using</span> reference       = T &amp;;
+  <span class="pl-k">using</span> const_reference = <span class="pl-k">const</span> T &amp;;
+  <span class="pl-k">using</span> <span class="pl-c1">index_t</span>         = <span class="pl-c1">size_t</span>;
+
+<span class="pl-k">public:</span>
+  <span class="pl-k">using</span> iterator        = detail::chunks_iterator&lt;<span class="pl-c1">self_t</span>&gt;;
+  <span class="pl-k">using</span> difference_type = <span class="pl-c1">chunk_index_t</span>;
+
+  <span class="pl-k">friend</span> iterator;
+
+<span class="pl-k">public:</span>
+  <span class="pl-en">chunks</span>(Container container)
+  { 
+    <span class="pl-k">int</span> i = <span class="pl-c1">0</span>;
+    <span class="pl-c1">std::for_each</span>(container.<span class="pl-c1">begin</span>()
+                 ,container.<span class="pl-c1">end</span>()
+                 ,[&amp;](T &amp; item){
+
+                    <span class="pl-k">if</span> (_chunks.<span class="pl-c1">empty</span>() ||  i &gt;= B)
+                    { 
+                      _chunks.<span class="pl-c1">push_back</span>(std::array&lt;T, B&gt; {{ item }});
+                      std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Created new array with: <span class="pl-pds">"</span></span> &lt;&lt; item &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+                      i = <span class="pl-c1">1</span>;
+                    } <span class="pl-k">else</span>
+                    {
+                      _chunks.<span class="pl-c1">back</span>()[i] = item;
+                      std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Appended to array: <span class="pl-pds">"</span></span> &lt;&lt; item &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+                      ++i;
+                    }
+                  });
+
+    _end = <span class="pl-c1">iterator</span>(*<span class="pl-c1">this</span>, _chunks.<span class="pl-c1">size</span>());
+  }
+
+  iterator <span class="pl-en">begin</span>() { <span class="pl-k">return</span> _begin; }
+  iterator <span class="pl-en">end</span>()   { <span class="pl-k">return</span> _end;   }
+
+  <span class="pl-k">inline</span> <span class="pl-c1">chunk_t</span> <span class="pl-k">operator</span>[](<span class="pl-k">int</span> offset) <span class="pl-k">const</span> {
+    <span class="pl-k">return</span> _chunks[offset];
+  }
+
+<span class="pl-k">private:</span>
+  std::vector&lt;std::array&lt;T,B&gt;&gt; _chunks;
+
+  iterator _begin = iterator(*<span class="pl-c1">this</span>, <span class="pl-c1">0</span>);
+  iterator _end   = iterator(*<span class="pl-c1">this</span>, <span class="pl-c1">0</span>);
+};
+
+} <span class="pl-c"><span class="pl-c">//</span> namespace cppp</span>
+
+#<span class="pl-k">endif</span></pre></div>
+
+<p><code>main.cc</code></p>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>cstdint<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>algorithm<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>chunks.h<span class="pl-pds">"</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+  <span class="pl-k">using</span> chunked_container = <span class="pl-k">typename</span> cpppc::chunks&lt;<span class="pl-c1">2</span>, <span class="pl-c1">uint16_t</span>, std::vector&lt;<span class="pl-c1">uint16_t</span>&gt;&gt;;
+
+  std::vector&lt;<span class="pl-c1">uint16_t</span>&gt; v_us { <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>, <span class="pl-c1">9</span>, <span class="pl-c1">10</span> };
+
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>-- Creation: -- <span class="pl-cce">\n</span><span class="pl-pds">"</span></span>;
+  chunked_container <span class="pl-smi">v_chunks</span>(v_us);
+
+  <span class="pl-c"><span class="pl-c">//</span> Iterate chunks:</span>
+  <span class="pl-k">auto</span> first_chunk = v_chunks.<span class="pl-c1">begin</span>();
+
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>-- Iterating through with custom for: <span class="pl-pds">"</span></span>;
+  <span class="pl-k">for</span>(<span class="pl-k">auto</span> it = first_chunk; it != v_chunks.<span class="pl-c1">end</span>(); ++it)
+  {
+      <span class="pl-k">for</span> (<span class="pl-k">auto</span> iit = (*it).<span class="pl-c1">begin</span>(); iit != (*it).<span class="pl-c1">end</span>(); ++iit)
+      {
+        std::cout &lt;&lt; *iit &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>; 
+      }
+  }
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>-- Iterating through with generic for_each: <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">std::for_each</span>(v_chunks.<span class="pl-c1">begin</span>(), v_chunks.<span class="pl-c1">end</span>(),
+    [](chunked_container::<span class="pl-c1">chunk_t</span> chunk)
+    {
+      <span class="pl-c1">std::for_each</span>(chunk.<span class="pl-c1">begin</span>(), chunk.<span class="pl-c1">end</span>(),
+        [](<span class="pl-c1">uint16_t</span> v)
+        {
+          std::cout &lt;&lt; v &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>;
+        });
+
+      std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>| <span class="pl-pds">"</span></span>;
+    });
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  <span class="pl-k">auto</span> chunk_size  = <span class="pl-c1">std::distance</span>(v_chunks.<span class="pl-c1">begin</span>(), v_chunks.<span class="pl-c1">end</span>());
+                     <span class="pl-c"><span class="pl-c">//</span> --&gt; 128/(16/8) = 64</span>
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>-- Chunks size: <span class="pl-pds">"</span></span> &lt;&lt; chunk_size &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  <span class="pl-c"><span class="pl-c">//</span> Iterators on elements in a chunk:</span>
+  <span class="pl-k">auto</span> first_chunk_elem = first_chunk.<span class="pl-c1">begin</span>();
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>First element: <span class="pl-pds">"</span></span> &lt;&lt; *first_chunk_elem &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  <span class="pl-c1">uint16_t</span> third_chunk_elem = first_chunk[<span class="pl-c1">2</span>];
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Third element: <span class="pl-pds">"</span></span> &lt;&lt; third_chunk_elem &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  <span class="pl-c"><span class="pl-c">//</span> Pointer to data in second chunk:</span>
+  <span class="pl-c1">uint16_t</span> *chunk_1_data = v_chunks[<span class="pl-c1">1</span>].<span class="pl-c1">data</span>();
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Pointer to data in second chunk (should be the third element with chunksize 2): <span class="pl-pds">"</span></span> &lt;&lt; *chunk_1_data &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+  <span class="pl-c"><span class="pl-c">//</span> Pointer to data in third chunk (= end pointer of data in second chunk):</span>
+  <span class="pl-c1">uint16_t</span> *chunk_2_data = v_chunks[<span class="pl-c1">2</span>].<span class="pl-c1">data</span>();
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Pointer to data in third chunk (should be the fifth element with chunksize 2): <span class="pl-pds">"</span></span> &lt;&lt; *chunk_2_data &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+}</pre></div>
+
+<p>Output:</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">&gt;</span> make
+clang++ --std=c++11 -Wall -pthread -O0 -g main.cc
+./a.out
+-- Creation: --
+Created new array with: 1
+Appended to array: 2
+Created new array with: 3
+Appended to array: 4
+Created new array with: 5
+Appended to array: 6
+Created new array with: 7
+Appended to array: 8
+Created new array with: 9
+Appended to array: 10
+-- Iterating through with custom <span class="pl-k">for</span>: 1 2 3 4 5 6 7 8 9 10
+-- Iterating through with generic for_each: 1 2 <span class="pl-k">|</span> 3 4 <span class="pl-k">|</span> 5 6 <span class="pl-k">|</span> 7 8 <span class="pl-k">|</span> 9 10 <span class="pl-k">|</span>
+-- Chunks size: 5
+First element: 1
+Third element: 3
+Pointer to data <span class="pl-k">in</span> second chunk (should be the third element with chunksize 2): 3
+Pointer to data <span class="pl-k">in</span> third chunk (should be the fifth element with chunksize 2): 5</pre></div>
+
+<h3>
+<a id="user-content-4-debugging" class="anchor" href="#4-debugging" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Debugging</h3>
 
 <blockquote>
 <p>Use gdb to debug the program implemented in the attached source file a-midterm/debug.cc. Running the program leads to a segfault.</p>
@@ -1129,9 +1401,9 @@ List &amp; <span class="pl-en">drop</span>(List &amp; l, UnaryPred condition) {
 
 <p>Here is the <code>gdb</code> output.</p>
 
-<p><a href="/home/rewrite/Documents/Uni/Master/semester-01/soft-dev-cpp/advanced-cpp/assignments/mid-term/4/gdb-output.png" target="_blank"><img src="/home/rewrite/Documents/Uni/Master/semester-01/soft-dev-cpp/advanced-cpp/assignments/mid-term/4/gdb-output.png" alt="gdb output" title="GDB Output" style="max-width:100%;"></a></p>
+<p><a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/4/gdb-output.png" target="_blank"><img src="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/4/gdb-output.png" alt="gdb output" title="GDB Output" style="max-width:100%;"></a></p>
 
-<p>The easy fix is to post-increment the iterator:</p>
+<p>The easy fix is to post-increment the iterator: <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/4/debug.cc">Code</a></p>
 
 <div class="highlight highlight-source-c++"><pre><span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> Vector, <span class="pl-k">typename</span> UnaryPred&gt;
 Vector &amp; <span class="pl-en">drop</span>(Vector &amp; v, UnaryPred condition) {
@@ -1143,17 +1415,244 @@ Vector &amp; <span class="pl-en">drop</span>(Vector &amp; v, UnaryPred condition
   <span class="pl-k">return</span> v;
 }</pre></div>
 
-<h5>
-<a id="user-content-5-algorithms-function-templates-type-deduction" class="anchor" href="#5-algorithms-function-templates-type-deduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Algorithms, Function Templates, Type Deduction</h5>
+<h3>
+<a id="user-content-5-algorithms-function-templates-type-deduction" class="anchor" href="#5-algorithms-function-templates-type-deduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Algorithms, Function Templates, Type Deduction</h3>
 
-<h6>
-<a id="user-content-51-defining-functions" class="anchor" href="#51-defining-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.1 Defining Functions</h6>
+<h4>
+<a id="user-content-51-defining-functions" class="anchor" href="#51-defining-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.1 Defining Functions</h4>
 
 <blockquote>
 <p>Implement a function interface <code>void log10(X)</code> that accepts a numeric value of type <code>X</code> and:</p>
 
-<p>Q: Prints the base 10 logarithm of the value if it is an integer</p>
+<p>Q: Prints the base 10 logarithm of the value if it is an integer and
+     prints the base 10 logarithm of the value’s square root if it is a floating point value</p>
+</blockquote>
+
+<p><strong>Answer</strong>: <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/5-1/log10/log10.cc">Code</a></p>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>algorithm<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> X&gt;
+<span class="pl-k">void</span> <span class="pl-en">log10</span>(X x)
+{   
+    <span class="pl-k">if</span> (std::is_integral&lt;X&gt;::value)
+    {
+      std::cout &lt;&lt; <span class="pl-c1">std::log10</span>(x) &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    } <span class="pl-k">else</span>
+    {
+      std::cout &lt;&lt; <span class="pl-c1">std::log10</span>(<span class="pl-c1">std::sqrt</span>(x)) &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    }
+
+
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">char</span> <span class="pl-k">const</span> *argv[])
+{
+  <span class="pl-k">int</span>   i = <span class="pl-c1">10</span>;
+  <span class="pl-k">float</span> f = <span class="pl-c1">10.0</span>;
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>int: <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">log10</span>(i);
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>double: <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">log10</span>(f);
+  <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+
+<p><em>Output</em>:</p>
+
+<div class="highlight highlight-source-shell"><pre>int: 1
+double: 0.5</pre></div>
+
+<blockquote>
+<p>Q: Implement a function interface <code>void print_walk(T begin, T end)</code> that accepts a range of iterators of type T and prints all values in the range. In this, the iteration order depends on the iterator type:</p>
+
+<ul>
+<li>for random-access iterators, tha order should be (pseudo) random but every element in the range must only be printed once</li>
+<li>for input iterators, elements are printed in order from begin to end-1</li>
+<li>for bidirectional iterators, elements are printed in reverse order from end-1 to begin</li>
+</ul>
+</blockquote>
+
+<p><strong>Answer</strong>: <a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/5-1/print-walk/print-walk.cc">Code</a></p>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>algorithm<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iterator<span class="pl-pds">&gt;</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>list<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>sstream<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-c"><span class="pl-c">//</span> using dispatcher function from cppreference</span>
+
+<span class="pl-k">template </span>&lt;<span class="pl-k">class</span> <span class="pl-en">RandomAccess</span>&gt;
+<span class="pl-k">void</span> <span class="pl-en">print_walk</span>(RandomAccess begin, RandomAccess end, std::random_access_iterator_tag)
+{
+  <span class="pl-c1">std::random_shuffle</span>(begin,end);
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>RandomAccess Iterator:  <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">std::copy</span>(begin, end, std::ostream_iterator&lt;<span class="pl-k">typename</span> RandomAccess::value_type&gt;(std::cout, <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>));
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+
+}
+
+<span class="pl-k">template </span>&lt;<span class="pl-k">class</span> <span class="pl-en">BiDirectional</span>&gt;
+<span class="pl-k">void</span> <span class="pl-en">print_walk</span>(BiDirectional begin, BiDirectional end, std::bidirectional_iterator_tag)
+{
+  <span class="pl-c1">std::reverse</span>(begin, end);
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>BiDirectional Iterator: <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">std::copy</span>(begin, end, std::ostream_iterator&lt;<span class="pl-k">typename</span> BiDirectional::value_type&gt;(std::cout, <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>));
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}
+
+<span class="pl-k">template </span>&lt;<span class="pl-k">class</span> <span class="pl-en">Input</span>&gt;
+<span class="pl-k">void</span> <span class="pl-en">print_walk</span>(Input begin, Input end, std::input_iterator_tag)
+{
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Input Iterator:         <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">std::copy</span>(begin, end, std::ostream_iterator&lt;<span class="pl-k">typename</span> Input::value_type&gt;(std::cout, <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>));
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}
+
+<span class="pl-k">template</span>&lt; <span class="pl-k">class</span> <span class="pl-en">Iter</span> &gt;
+<span class="pl-k">void</span> <span class="pl-en">print_walk</span>(Iter first, Iter last)
+{
+    <span class="pl-c1">print_walk</span>(first, last,
+        <span class="pl-k">typename</span> std::iterator_traits&lt;Iter&gt;::<span class="pl-c1">iterator_category</span>());
+}
+
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">char</span> <span class="pl-k">const</span> *argv[])
+{
+  std::vector&lt;<span class="pl-k">int</span>&gt;       v  { <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>, <span class="pl-c1">9</span> };
+  std::list&lt;<span class="pl-k">int</span>&gt;         l  { <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>, <span class="pl-c1">9</span> };
+
+  std::istringstream <span class="pl-smi">s</span>(<span class="pl-s"><span class="pl-pds">"</span>0123456789<span class="pl-pds">"</span></span>);
+  std::istream_iterator&lt;<span class="pl-k">char</span>&gt; eos;
+  std::istream_iterator&lt;<span class="pl-k">char</span>&gt; <span class="pl-c1">isi</span>(s);
+
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Vector          is a  <span class="pl-pds">"</span></span>; 
+  <span class="pl-c1">print_walk</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>());
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>List            is a  <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">print_walk</span>(l.<span class="pl-c1">begin</span>(), l.<span class="pl-c1">end</span>());
+  std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>IStreamIterator is an <span class="pl-pds">"</span></span>;
+  <span class="pl-c1">print_walk</span>(isi, eos);
+
+  <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+
+<p><em>Output</em>:</p>
+
+<div class="highlight highlight-source-shell"><pre>Vector          is a  RandomAccess Iterator:  4 3 7 8 0 5 2 1 6 9 
+List            is a  BiDirectional Iterator: 9 8 7 6 5 4 3 2 1 0 
+IStreamIterator is an Input Iterator:         0 1 2 3 4 5 6 7 8 9</pre></div>
+
+<h3>
+<a id="user-content-6-stl-compatible-sequence-containers" class="anchor" href="#6-stl-compatible-sequence-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. STL-Compatible Sequence Containers</h3>
+
+<h4>
+<a id="user-content-61-lazy-sequence-container" class="anchor" href="#61-lazy-sequence-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.1 Lazy Sequence Container</h4>
+
+<h3>
+<a id="user-content-7-thread-safety" class="anchor" href="#7-thread-safety" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7. Thread-Safety</h3>
+
+<h4>
+<a id="user-content-71-parallelism-and-stl-containers" class="anchor" href="#71-parallelism-and-stl-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.1 Parallelism and STL Containers</h4>
+
+<blockquote>
+<p>Given the following operations on an instance of <code>std::vector</code>, consider operation in the same table row to be executed by multiple threads in parallel:</p>
+
+<div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">//</span> Shared vector instance accessed by thread A and thread B:</span>
+std::vector&lt;<span class="pl-k">int</span>&gt; v;
+
+<span class="pl-c"><span class="pl-c">//</span> thread A:                    | thread B:</span>
+<span class="pl-c">// =============================|==============================</span>
+   std::vector&lt;<span class="pl-k">int</span>&gt; a;          | std::vector&lt;<span class="pl-k">int</span>&gt; b;           (<span class="pl-c1">1</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   <span class="pl-k">int</span> xa = v[<span class="pl-c1">3</span>];               | <span class="pl-k">int</span> xb = v[<span class="pl-c1">4</span>];                (<span class="pl-c1">2</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v[<span class="pl-c1">3</span>] = <span class="pl-c1">123</span>;                  | v[<span class="pl-c1">4</span>] = <span class="pl-c1">345</span>;                   (<span class="pl-c1">3</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v[<span class="pl-c1">3</span>] = <span class="pl-c1">123</span>;                  | <span class="pl-k">int</span> xb = v[<span class="pl-c1">3</span>];                (<span class="pl-c1">4</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v.push_back(<span class="pl-c1">24</span>);             | v.size();                     (<span class="pl-c1">5</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v.back();                    | v.push_back(<span class="pl-c1">54</span>);              (<span class="pl-c1">6</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v.begin();                   | v.push_back(<span class="pl-c1">34</span>);              (<span class="pl-c1">7</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span>
+   v.back();                    | v.pop_back();                 (<span class="pl-c1">8</span>)
+<span class="pl-c"><span class="pl-c">//</span> -----------------------------+------------------------------</span></pre></div>
+
+<p>Q: For every pair of operation on the same table row, give a brief explanation on the guarantees with respect to thread-safety according to the C++ standard.</p>
 </blockquote>
 
 <p><strong>Answer</strong>:</p>
+
+<ul>
+<li>(1) Ok, no shared resources used</li>
+<li>(2) Ok, because <a href="http://en.cppreference.com/w/cpp/container">the Thread safety p.4</a> guarantees that iterator operations are safe for reading</li>
+<li>(3) Ok, because <a href="http://en.cppreference.com/w/cpp/container">the Thread safety p.3</a> says it's ok to modify different elements in the same container</li>
+<li>(4) Ok, but only because <code>v[3] = 123</code> is valid since step 3. Therefore there is no possiblity that this value is ambiguous</li>
+<li>(5) Not ok, this is a modification of the container and the result of <code>size()</code> is dependent on the <code>push_back(24)</code>. <code>size()</code> may be <code>4</code>, or <code>5</code>
+</li>
+<li>(6) Not ok, same problem as in (5), <code>back()</code> is dependent on <code>push_back(54)</code>
+</li>
+<li>(7) Ok, because <code>begin()</code> returns the reference on the first element of the vector and does not change if an element is appended</li>
+<li>(8) Not ok, same problem as in (5) and (6), <code>back()</code> is dependent on <code>pop_back()</code>
+</li>
+</ul>
+
+<h4>
+<a id="user-content-72-producer-consumer-problem" class="anchor" href="#72-producer-consumer-problem" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.2 Producer-Consumer Problem</h4>
+
+<blockquote>
+<p>Simply put, one thread is producing goods and another thread is consuming goods. We want the consumer thread to wait using a condition variable, and we want goods.push(i) to be mutually exclusive to goods.pop().</p>
+
+<p>We are letting c++ and c– be surrogates for this mutual exclusion, since we can easily check if we correctly end up with 0 in the end.</p>
+
+<p>Run the code as it is <em>(with -pthread flag)</em>, and you will see that the net value is way off:</p>
+</blockquote>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>thread<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>condition_variable<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>mutex<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>chrono<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>queue<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-k">int</span> c = <span class="pl-c1">0</span>;
+    <span class="pl-k">bool</span> done = <span class="pl-c1">false</span>;
+    queue&lt;<span class="pl-k">int</span>&gt; goods;
+
+    thread <span class="pl-smi">producer</span>([&amp;]() {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; <span class="pl-c1">500</span>; ++i) {
+            goods.<span class="pl-c1">push</span>(i);
+            c++;
+        }
+
+        done = <span class="pl-c1">true</span>;
+    });
+
+    thread <span class="pl-smi">consumer</span>([&amp;]() {
+        <span class="pl-k">while</span> (!done) {
+            <span class="pl-k">while</span> (!goods.<span class="pl-c1">empty</span>()) {
+                goods.<span class="pl-c1">pop</span>();
+                c--;
+            }
+        }
+    });
+
+    producer.<span class="pl-c1">join</span>();
+    consumer.<span class="pl-c1">join</span>();
+    cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Net: <span class="pl-pds">"</span></span> &lt;&lt; c &lt;&lt; endl;
+}</pre></div>
+
+<blockquote>
+<p>Q: (There was no question, but if we would have to fix the implementation)</p>
+</blockquote>
+
+<p><strong>Answer</strong>: Simply replace <code>int c = 0;</code> with <code>std::atomic&lt;int&gt; c(0);</code> and add the header <code>#include &lt;atomic&gt;</code>. This ensures that the counter will be updated thread-safe and lock-free.
+<a href="/Users/rewrite/Documents/university/master/semester-01/soft-dev/advanced-cpp/assignments/mid-term/7-2/consumer-producer.cc">Code</a></p>
 </article></body></html>

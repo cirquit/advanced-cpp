@@ -18,3 +18,4 @@ clean:
 	rm -f *.o
 	rm -f *.a
 	rm -f *.out
+	rm -rf *.dSYM

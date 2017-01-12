@@ -1,4 +1,4 @@
-CXX=g++
+CXX=clang++
 CFLAGS=--std=c++11 -Wall -pthread -O0 -g
 SRCS=$(wildcard *.cc)
 OBJS=$(SRCS:.cpp=.o)
@@ -18,3 +18,4 @@ clean:
 	rm -f *.o
 	rm -f *.a
 	rm -f *.out
+	rm -rf *.dSYM
